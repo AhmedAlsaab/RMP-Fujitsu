@@ -8,11 +8,12 @@ public class ActiveObjects : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         Popup.SetActive(false);
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+        Popup.transform.SetAsLastSibling();
+
+    }
+
+    // Update is called once per frame
+    void Update () {
+
+    }
 }

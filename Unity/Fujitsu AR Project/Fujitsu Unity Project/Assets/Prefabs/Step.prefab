@@ -176,6 +176,7 @@ GameObject:
   - component: {fileID: 222440331926451554}
   - component: {fileID: 114967215364366928}
   - component: {fileID: 114384388041219660}
+  - component: {fileID: 114706764122404142}
   m_Layer: 5
   m_Name: Step Details Popup
   m_TagString: Untagged
@@ -267,7 +268,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: COMMENT
+  m_Text: Step 3 Details.
 --- !u!114 &114306945673207550
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -300,7 +301,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Step 2
+  m_Text: Step 3
 --- !u!114 &114307537989679130
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -367,7 +368,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1969078450133928}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1ba7c87edf2a08940b1911defbacf3f0, type: 3}
   m_Name: 
@@ -415,6 +416,17 @@ MonoBehaviour:
       - m_Target: {fileID: 1969078450133928}
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 224569176105013018}
+        m_MethodName: SetAsLastSibling
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -509,7 +521,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Step 2
+  m_Text: Step 3
 --- !u!114 &114608000079424106
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -537,6 +549,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114706764122404142
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1969078450133928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ba7c87edf2a08940b1911defbacf3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Popup: {fileID: 1969078450133928}
 --- !u!114 &114808229626839010
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -596,7 +620,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: DEPARTMENT NAME
+  m_Text: Step 3 Department.
 --- !u!114 &114888004566704796
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -683,7 +707,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: OWNER NAME
+  m_Text: Step 3 Owner.
 --- !u!114 &114967215364366928
 MonoBehaviour:
   m_ObjectHideFlags: 1
