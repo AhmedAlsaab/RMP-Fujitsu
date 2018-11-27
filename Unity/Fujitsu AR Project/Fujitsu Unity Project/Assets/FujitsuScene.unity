@@ -208,8 +208,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.7, y: -63.8}
-  m_SizeDelta: {x: -35.2, y: -172.7}
+  m_AnchoredPosition: {x: 0.7000122, y: -43.200012}
+  m_SizeDelta: {x: -35.2, y: -131.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &496149989
 MonoBehaviour:
@@ -383,8 +383,7 @@ MonoBehaviour:
   processMenuTitle: {fileID: 2022907036}
   processBoxTitle: {fileID: 1878252349}
   stepParentObject: {fileID: 496149987}
-  stepPrefab: {fileID: 1986408704512268, guid: a3635aab3d144874d914b7cd2fec035c, type: 2}
-  numberOfSteps: 3
+  stepPrefab: {fileID: 1616701541954700, guid: a3635aab3d144874d914b7cd2fec035c, type: 2}
   stepSpawnPosition: {fileID: 1132122740}
 --- !u!1 &718533409
 GameObject:
@@ -1300,8 +1299,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 15, y: 191.3}
-  m_SizeDelta: {x: 385.8, y: 95.2}
+  m_AnchoredPosition: {x: 31.7, y: 198.6}
+  m_SizeDelta: {x: 719.2, y: 80.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1878252349
 MonoBehaviour:
