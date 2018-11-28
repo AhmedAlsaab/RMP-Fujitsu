@@ -82,8 +82,6 @@ public class ProcessDetailInserter : MonoBehaviour {
 				Debug.Log ("Request To " + baseURL + processNameDetailURLPath);
 
 				yield return wwwForNameDetail;
-				var detailNameJSON =  JSON.Parse(wwwForNameDetail.text);
-				Debug.Log (wwwForNameDetail.text);
 
 				name = JSON.Parse(wwwForNameDetail.text)["feed"]["entry"]["process"]["pool"]["lane"]["step"][1]["name"].Value;
 				Debug.Log (name); // Debugging name of step 1.
@@ -101,18 +99,17 @@ public class ProcessDetailInserter : MonoBehaviour {
 				yield return wwwForDetail;
 				var detailJSON =  JSON.Parse(wwwForDetail.text);
 
-				var detailStatus =  JSON.Parse(www.text);
-				var arrayOfStepDetails = jsonObject["feed"]["entry"]["content"]["P_value"]["path"].AsArray;
+				var arrayOfStepDetails = detailJSON["feed"]["entry"]["content"]["P_value"]["path"].AsArray;
 
-				int counter = 1;
+				int counter = 0;
 				foreach (var stepItem in arrayOfRelatedSteps.Values) {
 					if(stepItem["type"] == "activity") {
 						createStep (stepItem["name"].Value, arrayOfStepDetails[counter]["st"], stepItem["action"]["service"]["request"]["assignedto"]["P_value"].Value,
 							processStepsArray["feed"]["entry"]["process"]["pool"]["lane"]["name"]);
-						counter++;
+						
 							
 					}
-
+					counter++;
 				}
 					
 

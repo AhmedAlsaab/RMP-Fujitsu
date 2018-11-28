@@ -383,7 +383,7 @@ MonoBehaviour:
   processMenuTitle: {fileID: 2022907036}
   processBoxTitle: {fileID: 1878252349}
   stepParentObject: {fileID: 496149987}
-  stepPrefab: {fileID: 1986408704512268, guid: a3635aab3d144874d914b7cd2fec035c, type: 2}
+  stepPrefab: {fileID: 1616701541954700, guid: a3635aab3d144874d914b7cd2fec035c, type: 2}
   stepSpawnPosition: {fileID: 1132122740}
 --- !u!1 &718533409
 GameObject:
