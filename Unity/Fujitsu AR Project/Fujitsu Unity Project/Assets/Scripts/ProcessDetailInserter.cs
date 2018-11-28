@@ -156,15 +156,15 @@ public class ProcessDetailInserter : MonoBehaviour {
 		item.transform.GetChild(1).Translate(0, (position * -1), 0);
 
 		if(status == 201) {
-			item.GetComponent<Image>().color = Color.green;
+			item.GetComponent<Image>().color = new Color32(119, 157, 004, 255);
 
 		} else if (status == 301) {
-			item.GetComponent<Image>().color = Color.red;
+			item.GetComponent<Image>().color = new Color32(201, 47, 0, 255);
 
-		} else if (status == 102) {
-			item.GetComponent<Image>().color = Color.yellow;
+        } else if (status == 102) {
+			item.GetComponent<Image>().color = new Color32(217, 143, 0, 255); 
 
-		}
+        }
 
 	} 
 
@@ -195,19 +195,20 @@ public class ProcessDetailInserter : MonoBehaviour {
 
 		individualProcess.GetComponentsInChildren<Text>()[0].text = processTitle;
 
+        // Success
 		if(status == 201) {
-			individualProcess.GetComponentsInChildren<Image>()[1].color = Color.green;
-			individualProcess.GetComponentsInChildren<Image>()[3].color = Color.green;
-
+			individualProcess.GetComponentsInChildren<Image>()[1].color = new Color32(119, 157, 004, 255);
+			individualProcess.GetComponentsInChildren<Image>()[3].color = new Color32(119, 157, 004, 255);
+        // Pending
 		} else if (status == 301) {
-			individualProcess.GetComponentsInChildren<Image>()[1].color = Color.red;
-			individualProcess.GetComponentsInChildren<Image>()[3].color = Color.red;
+			individualProcess.GetComponentsInChildren<Image>()[1].color = new Color32(201, 47, 0, 255);
+			individualProcess.GetComponentsInChildren<Image>()[3].color = new Color32(201, 47, 0, 255);
+        // Failed
+        } else if (status == 102) {
+            individualProcess.GetComponentsInChildren<Image>()[1].color = new Color32(217, 143, 0, 255);
+			individualProcess.GetComponentsInChildren<Image>()[3].color = new Color32(217, 143, 0, 255);
 
-		} else if (status == 102) {
-			individualProcess.GetComponentsInChildren<Image>()[1].color = Color.yellow;
-			individualProcess.GetComponentsInChildren<Image>()[3].color = Color.yellow;
-
-		}
+        }
 
 
 		return processStepHolder;
