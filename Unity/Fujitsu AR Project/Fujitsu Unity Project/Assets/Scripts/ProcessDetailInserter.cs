@@ -184,6 +184,9 @@ public class ProcessDetailInserter : MonoBehaviour {
 		GameObject processStepHolder = Instantiate(stepsHolder);
 		processStepHolder.transform.SetParent(individualProcess.transform, false);
 
+		// REF: DOCUMENTATION: https://docs.unity3d.com/ScriptReference/Transform.GetChild.html
+		// CONVERTING TO POSITIVE https://stackoverflow.com/questions/1348080/convert-a-positive-number-to-negative-in-c-sharp
+		// BY Shimmy at Jan 24 '12 at 23:13 ACCESSED ON 28/11/2018
 		individualProcess.transform.GetChild(2).Translate(0, (processAligner * -1), 0);
 
 
