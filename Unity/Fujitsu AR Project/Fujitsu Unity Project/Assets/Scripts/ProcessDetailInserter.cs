@@ -20,19 +20,19 @@ using SimpleJSON;
 // https://docs.unity3d.com/ScriptReference/Transform.Translate.html
 // Accessed on 20.11.2018.
 public class ProcessDetailInserter : MonoBehaviour {
-	public Text processMenuTitle;
-	public Text processBoxTitle;
-
-	public GameObject stepParentObject;
 	public GameObject stepPrefab;
-	public Transform stepSpawnPosition;
-	private int itemAligner = 0;
+
 	private string baseURL = "https://live.runmyprocess.com/";
+
+	private int processAligner = 0;
+	public GameObject processPrefab;
+	public GameObject processParent;
+
+	private int processLimit = 5;
+
+	public GameObject stepsHolder;
 	// Use this for initialization
 	void Start () {
-		processMenuTitle.text = "Test Process.";
-		processBoxTitle.text = "Test Process.";
-
 		StartCoroutine(GetText());
 
 	}
@@ -46,7 +46,7 @@ public class ProcessDetailInserter : MonoBehaviour {
 	// THIS PART IS ADOPTED FROM REQUESTING DATA FROM THE WEB REF.
 	// DATE ACCESSED 17.11.2018.
 	// EXAMPLE FROM OFFICIAL DOCUMENTATION.
-	// INSPIRED BY TEAM 7 AR Project, Oliver Simon c1633899 20/11/2018
+	// LOGIN HEADER INSPIRED BY TEAM 7 AR Project, Oliver Simon c1633899 20/11/2018
 	IEnumerator GetText() {
 		var username = "cristiano.bellucci.fujitsu+cardiffadmin@gmail.com";
 		var password = "Millennium";
@@ -63,18 +63,21 @@ public class ProcessDetailInserter : MonoBehaviour {
 		yield return www;
 
 
-		// Preparation for process step detail fetching.
+		// Preparation for process generation.
 		var jsonObject =  JSON.Parse(www.text);
 		var arrayOfProcesses = jsonObject["feed"]["entry"].AsArray;
 
-		// Getting process steps and details.
-		foreach(var arrayItem in arrayOfProcesses.Values) {
-			
-			processMenuTitle.text = arrayItem["title"].Value;
-			processBoxTitle.text = arrayItem["title"].Value;
+		int i = 0;
 
-			// Populate for ID b7dfe4e0-eccb-11e8-988a-0619bd984419
-			if(arrayItem["id"] == "0bd5d740-eccb-11e8-894c-0639651b3341") {	
+		// Getting the process report.
+		foreach(var arrayItem in arrayOfProcesses.Values) {
+			if(i < processLimit) {
+
+				GameObject createdProcess = createProcess (arrayItem["title"].Value, arrayItem["category"][0]["label"].AsInt);
+
+				// Adding in title for process.
+				createdProcess.GetComponentsInChildren<Text>()[0].text = arrayItem["title"].Value;
+
 				// Getting process name and number.
 				string processNameDetailURLPath = arrayItem["link"][0]["href"];
 
@@ -82,9 +85,6 @@ public class ProcessDetailInserter : MonoBehaviour {
 				Debug.Log ("Request To " + baseURL + processNameDetailURLPath);
 
 				yield return wwwForNameDetail;
-
-				name = JSON.Parse(wwwForNameDetail.text)["feed"]["entry"]["process"]["pool"]["lane"]["step"][1]["name"].Value;
-				Debug.Log (name); // Debugging name of step 1.
 
 				var processStepsArray =  JSON.Parse(wwwForNameDetail.text);
 				var arrayOfRelatedSteps = processStepsArray["feed"]["entry"]["process"]["pool"]["lane"]["step"].AsArray;
@@ -102,12 +102,13 @@ public class ProcessDetailInserter : MonoBehaviour {
 				var arrayOfStepDetails = detailJSON["feed"]["entry"]["content"]["P_value"]["path"].AsArray;
 
 				int counter = 0;
+				int itemAligner = 0;
 				foreach (var stepItem in arrayOfRelatedSteps.Values) {
 					if(stepItem["type"] == "activity") {
-						createStep (stepItem["name"].Value, arrayOfStepDetails[counter]["st"], stepItem["action"]["service"]["request"]["assignedto"]["P_value"].Value,
+						createStep(createdProcess, itemAligner, stepItem["name"].Value, arrayOfStepDetails[counter]["st"], stepItem["action"]["service"]["request"]["assignedto"]["P_value"].Value,
 							processStepsArray["feed"]["entry"]["process"]["pool"]["lane"]["name"]);
 						
-							
+						itemAligner -= 75;
 					}
 					counter++;
 				}
@@ -128,11 +129,12 @@ public class ProcessDetailInserter : MonoBehaviour {
 
 
 			}
+			i++;
 
 		}
 	}
 
-	void createStep(string name, int status, string owner, string department, string comment = "No comment available.") {
+	void createStep(GameObject parent, int position, string name, int status, string owner, string department, string comment = "No comment available.") {
 		stepPrefab.GetComponentsInChildren<Text>()[0].text = name; // Step title.
 		stepPrefab.GetComponentsInChildren<Text>()[1].text = name; // Step Box title.
 
@@ -147,27 +149,66 @@ public class ProcessDetailInserter : MonoBehaviour {
 		// BASED ON ANSWER BY pfreese · Mar 18, 2015 at 05:28 AM On "instantiating elements in UI/Canvas".
 		// https://answers.unity.com/questions/926254/instantiating-elements-in-uicanvas.html
 		// ACCESSED ON 22/11/2018
+		GameObject item = Instantiate(stepPrefab);
+		item.transform.SetParent(parent.transform.GetChild(2), false);
+
+		item.transform.Translate(0, position, 0);
+		item.transform.GetChild(1).Translate(0, (position * -1), 0);
 
 		if(status == 201) {
-			stepPrefab.GetComponent<Image>().color = Color.yellow;
+			item.GetComponent<Image>().color = Color.green;
 
 		} else if (status == 301) {
-			stepPrefab.GetComponent<Image>().color = Color.red;
+			item.GetComponent<Image>().color = Color.red;
 
 		} else if (status == 102) {
-			stepPrefab.GetComponent<Image>().color = Color.green;
+			item.GetComponent<Image>().color = Color.yellow;
 
 		}
 
-		GameObject item = Instantiate(stepPrefab);
-		item.transform.SetParent(stepParentObject.transform, false);
-
-		item.transform.Translate(0,itemAligner,0);
-
-		itemAligner -= 75;
-
 	} 
 
+	// Setting parent game object of created child game objects.
+	// Based on example https://answers.unity.com/questions/586985/how-to-make-an-instantiated-prefab-a-child-of-a-ga.html
+	// Created by: robertbu · Dec 01, 2013 at 01:34 AM
+
+	// BASED ON ANSWER BY pfreese · Mar 18, 2015 at 05:28 AM On "instantiating elements in UI/Canvas".
+	// https://answers.unity.com/questions/926254/instantiating-elements-in-uicanvas.html
+	// ACCESSED ON 22/11/2018
+	GameObject createProcess(string processTitle, int status) {
+		GameObject individualProcess = Instantiate(processPrefab);
+		individualProcess.transform.SetParent(processParent.transform, false);
+
+		individualProcess.transform.Translate(0, processAligner, 0);
+
+		GameObject processStepHolder = Instantiate(stepsHolder);
+		processStepHolder.transform.SetParent(individualProcess.transform, false);
+
+		individualProcess.transform.GetChild(2).Translate(0, (processAligner * -1), 0);
+
+
+		processAligner -= 75;
+
+
+		individualProcess.GetComponentsInChildren<Text>()[0].text = processTitle;
+
+		if(status == 201) {
+			individualProcess.GetComponentsInChildren<Image>()[1].color = Color.green;
+			individualProcess.GetComponentsInChildren<Image>()[3].color = Color.green;
+
+		} else if (status == 301) {
+			individualProcess.GetComponentsInChildren<Image>()[1].color = Color.red;
+			individualProcess.GetComponentsInChildren<Image>()[3].color = Color.red;
+
+		} else if (status == 102) {
+			individualProcess.GetComponentsInChildren<Image>()[1].color = Color.yellow;
+			individualProcess.GetComponentsInChildren<Image>()[3].color = Color.yellow;
+
+		}
+
+
+		return processStepHolder;
+	} 
 	// End of referenced code.
 
 }
