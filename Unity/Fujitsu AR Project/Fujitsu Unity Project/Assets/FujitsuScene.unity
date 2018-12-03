@@ -1229,11 +1229,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da0b59b8bec31374da2c0cc162062a7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stepPrefab: {fileID: 1666176164970704, guid: a3635aab3d144874d914b7cd2fec035c, type: 2}
-  processPrefab: {fileID: 1426370468696384, guid: 76ecf85f424926b40b270a7275c4bf34,
+  stepPrefab: {fileID: 1917616146643354, guid: a3635aab3d144874d914b7cd2fec035c, type: 2}
+  processPrefab: {fileID: 1056507240926720, guid: 76ecf85f424926b40b270a7275c4bf34,
     type: 2}
   processParent: {fileID: 1014922906}
-  stepsHolder: {fileID: 1497335725755792, guid: 67ecf861cd231e2458268bce9e340751,
+  stepsHolder: {fileID: 1939748967169672, guid: 67ecf861cd231e2458268bce9e340751,
     type: 2}
 --- !u!1 &1024633412
 GameObject:
@@ -1889,11 +1889,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bb0c3de62a330e42afb351ac71e3d3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stepPrefab: {fileID: 1666176164970704, guid: a3635aab3d144874d914b7cd2fec035c, type: 2}
-  processPrefab: {fileID: 1426370468696384, guid: 76ecf85f424926b40b270a7275c4bf34,
+  stepPrefab: {fileID: 1917616146643354, guid: a3635aab3d144874d914b7cd2fec035c, type: 2}
+  processPrefab: {fileID: 1056507240926720, guid: 76ecf85f424926b40b270a7275c4bf34,
     type: 2}
   processParent: {fileID: 1633144214}
-  stepsHolder: {fileID: 1497335725755792, guid: 67ecf861cd231e2458268bce9e340751,
+  stepsHolder: {fileID: 1939748967169672, guid: 67ecf861cd231e2458268bce9e340751,
     type: 2}
 --- !u!114 &1633144218
 MonoBehaviour:
@@ -2657,7 +2657,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.050049, y: -0.000011444}
+  m_AnchoredPosition: {x: 0.049927, y: 0.00015259}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2078649099
