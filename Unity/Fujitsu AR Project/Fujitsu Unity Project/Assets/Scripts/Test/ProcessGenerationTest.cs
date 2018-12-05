@@ -63,4 +63,25 @@ public class ProcessGenerationTest {
 		Assert.AreEqual (status1, targetStatusColor);
 		Assert.AreEqual (status2, targetStatusColor);
 	}
+
+	[UnityTest]
+	public IEnumerator StepTitleAndGeneration() {
+		ProcessDetailInserter testInsterter = new ProcessDetailInserter();
+		testInsterter.Construct ("Prefabs/Process Item","Prefabs/Step","Prefabs/Process Details General");
+
+		GameObject parentObj = new GameObject();
+		testInsterter.createProcess (parentObj, "Test Process", 201);
+
+		yield return null;
+
+		GameObject createdProcess = GameObject.FindGameObjectWithTag ("Process");
+
+		testInsterter.createStep (createdProcess, 0, "Test Step", 201, "Someone", "A Place");
+
+		GameObject createdStep = GameObject.FindGameObjectWithTag ("Step");
+
+		string title = createdStep.GetComponentsInChildren<Text> () [0].text;
+
+		Assert.AreEqual (title, "Test Step");
+	}
 }
