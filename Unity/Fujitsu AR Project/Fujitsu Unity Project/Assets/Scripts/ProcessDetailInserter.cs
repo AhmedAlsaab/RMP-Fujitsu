@@ -44,7 +44,7 @@ public class ProcessDetailInserter : MonoBehaviour {
 	// DATE ACCESSED 17.11.2018.
 	// EXAMPLE FROM OFFICIAL DOCUMENTATION.
 	// LOGIN HEADER INSPIRED BY TEAM 7 AR Project, Oliver Simon c1633899 20/11/2018
-	public IEnumerator HandleJSON() {
+	private IEnumerator HandleJSON() {
 		var username = "cristiano.bellucci.fujitsu+cardiffadmin@gmail.com";
 		var password = "Millennium";
 
@@ -202,13 +202,14 @@ public class ProcessDetailInserter : MonoBehaviour {
 		if(status == 201) {
 			colorCode = new Color32(119, 157, 004, 255);
 
-		// Pending colour
-		} else if (status == 301) {
-			colorCode = new Color32(201, 47, 0, 255);
-
 		// Failed colour
-		} else if (status == 102) {
+		} else if (status == 301) {
 			colorCode = new Color32(217, 143, 0, 255);
+
+
+		// Pending colour
+		} else if (status == 102) {
+			colorCode = new Color32 (201, 47, 0, 255);
 
 		}
 
