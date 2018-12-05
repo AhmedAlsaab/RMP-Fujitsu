@@ -30,7 +30,7 @@ public class ProcessDetailInserter : MonoBehaviour {
 
 	private int processLimit = 5;
 
-	public GameObject stepsHolder;
+	public GameObject stepsHolderPrefab;
 	// Use this for initialization
 	void Start () {
 		StartCoroutine(GetText());
@@ -181,7 +181,7 @@ public class ProcessDetailInserter : MonoBehaviour {
 
 		individualProcess.transform.Translate(0, processAligner, 0);
 
-		GameObject processStepHolder = Instantiate(stepsHolder);
+		GameObject processStepHolder = Instantiate(stepsHolderPrefab);
 		processStepHolder.transform.SetParent(individualProcess.transform, false);
 
 		// REF: DOCUMENTATION: https://docs.unity3d.com/ScriptReference/Transform.GetChild.html
