@@ -39,6 +39,11 @@ public class ProcessDetailInserter : MonoBehaviour {
 
 	}
 
+	// Used for test initialization. //TODO
+	public void Construct (string processPrefabLocation, string stepPrefabLocation) {
+		processPrefab = (GameObject)Resources.Load(processPrefabLocation);
+		stepPrefab = (GameObject)Resources.Load(stepPrefabLocation);
+	}
 
 	// THIS PART IS ADOPTED FROM REQUESTING DATA FROM THE WEB REF.
 	// DATE ACCESSED 17.11.2018.
@@ -70,7 +75,7 @@ public class ProcessDetailInserter : MonoBehaviour {
 		foreach(var arrayItem in arrayOfProcesses.Values) {
 			if(i < processLimit) {
 
-				GameObject createdProcess = createProcess (arrayItem["title"].Value, arrayItem["category"][0]["label"].AsInt);
+				GameObject createdProcess = createProcess (processParent, arrayItem["title"].Value, arrayItem["category"][0]["label"].AsInt);
 
 				// Adding in title for process.
 				createdProcess.GetComponentsInChildren<Text>()[0].text = arrayItem["title"].Value;
@@ -167,9 +172,9 @@ public class ProcessDetailInserter : MonoBehaviour {
 	// BASED ON ANSWER BY pfreese · Mar 18, 2015 at 05:28 AM On "instantiating elements in UI/Canvas".
 	// https://answers.unity.com/questions/926254/instantiating-elements-in-uicanvas.html
 	// ACCESSED ON 22/11/2018
-	public GameObject createProcess(string processTitle, int status) {
+	public GameObject createProcess(GameObject processParentIn, string processTitle, int status) {
 		GameObject individualProcess = Instantiate(processPrefab);
-		individualProcess.transform.SetParent(processParent.transform, false);
+		individualProcess.transform.SetParent(processParentIn.transform, false);
 
 		individualProcess.transform.Translate(0, processAligner, 0);
 

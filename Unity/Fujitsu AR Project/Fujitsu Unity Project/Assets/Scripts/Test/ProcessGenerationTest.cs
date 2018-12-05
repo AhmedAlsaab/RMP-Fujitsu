@@ -37,4 +37,12 @@ public class ProcessGenerationTest {
 
 		Assert.AreEqual (targetColor, colourDefined);
 	}
+
+	[Test]
+	public void StepTitle() {
+		ProcessDetailInserter testInsterter = new ProcessDetailInserter();
+		testInsterter.Construct ("Prefabs/Process Item","Prefabs/Step");
+
+
+	}
 }
