@@ -31,15 +31,12 @@ public class ProcessDetailInserter : MonoBehaviour {
 	private int processLimit = 5;
 
 	public GameObject stepsHolderPrefab;
+
+
 	// Use this for initialization
 	void Start () {
-		StartCoroutine(GetText());
+		StartCoroutine(HandleJSON());
 
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
 	}
 
 
@@ -47,7 +44,7 @@ public class ProcessDetailInserter : MonoBehaviour {
 	// DATE ACCESSED 17.11.2018.
 	// EXAMPLE FROM OFFICIAL DOCUMENTATION.
 	// LOGIN HEADER INSPIRED BY TEAM 7 AR Project, Oliver Simon c1633899 20/11/2018
-	IEnumerator GetText() {
+	public IEnumerator HandleJSON() {
 		var username = "cristiano.bellucci.fujitsu+cardiffadmin@gmail.com";
 		var password = "Millennium";
 
@@ -135,9 +132,10 @@ public class ProcessDetailInserter : MonoBehaviour {
 		}
 	}
 
-	void createStep(GameObject parent, int position, string name, int status, string owner, string department, string comment = "No comment available.") {
-		stepPrefab.GetComponentsInChildren<Text>()[0].text = name; // Step title.
-		stepPrefab.GetComponentsInChildren<Text>()[1].text = name; // Step Box title.
+
+	public void createStep(GameObject parent, int position, string name, int status, string owner, string department, string comment = "No comment available.") {
+		stepPrefab.GetComponentsInChildren<Text>()[0].text = name; // Step Main Button title.
+		stepPrefab.GetComponentsInChildren<Text>()[1].text = name; // Step Pop Up Box title.
 
 		stepPrefab.GetComponentsInChildren<Text>()[3].text = department; // Step Department.
 		stepPrefab.GetComponentsInChildren<Text>()[5].text = owner; // Step Owner.
@@ -161,6 +159,7 @@ public class ProcessDetailInserter : MonoBehaviour {
 
 	} 
 
+
 	// Setting parent game object of created child game objects.
 	// Based on example https://answers.unity.com/questions/586985/how-to-make-an-instantiated-prefab-a-child-of-a-ga.html
 	// Created by: robertbu · Dec 01, 2013 at 01:34 AM
@@ -168,7 +167,7 @@ public class ProcessDetailInserter : MonoBehaviour {
 	// BASED ON ANSWER BY pfreese · Mar 18, 2015 at 05:28 AM On "instantiating elements in UI/Canvas".
 	// https://answers.unity.com/questions/926254/instantiating-elements-in-uicanvas.html
 	// ACCESSED ON 22/11/2018
-	GameObject createProcess(string processTitle, int status) {
+	public GameObject createProcess(string processTitle, int status) {
 		GameObject individualProcess = Instantiate(processPrefab);
 		individualProcess.transform.SetParent(processParent.transform, false);
 
@@ -195,18 +194,19 @@ public class ProcessDetailInserter : MonoBehaviour {
 		return processStepHolder;
 	} 
 
-	Color32 identifyStatus(int status) {
+
+	public Color32 identifyStatus(int status) {
 		Color32 colorCode = new Color32(217, 143, 0, 255);
 
-		// Success
+		// Success colour
 		if(status == 201) {
 			colorCode = new Color32(119, 157, 004, 255);
 
-		// Pending
+		// Pending colour
 		} else if (status == 301) {
 			colorCode = new Color32(201, 47, 0, 255);
 
-		// Failed
+		// Failed colour
 		} else if (status == 102) {
 			colorCode = new Color32(217, 143, 0, 255);
 
