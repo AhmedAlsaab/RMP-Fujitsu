@@ -39,7 +39,7 @@ public class ProcessDetailInserter : MonoBehaviour {
 
 	}
 
-	// Used for test initialization. //TODO
+	// Used only for test initialization. //TODO
 	public void Construct (string processPrefabLocation, string stepPrefabLocation) {
 		processPrefab = (GameObject)Resources.Load(processPrefabLocation);
 		stepPrefab = (GameObject)Resources.Load(stepPrefabLocation);
@@ -114,21 +114,6 @@ public class ProcessDetailInserter : MonoBehaviour {
 					}
 					counter++;
 				}
-					
-
-
-				// Getting step path.
-				var arrayOfSteps = detailJSON["feed"]["entry"]["content"]["P_value"]["path"].AsArray;
-
-				// Getting process step details.
-				string furtherDetailsLink= detailJSON["feed"]["link"][10]["href"];
-
-				Debug.Log ("Request For Further Details To " + baseURL + furtherDetailsLink);
-				WWW wwwFurtherDetails = new WWW(baseURL + furtherDetailsLink, null, headers);
-
-				yield return wwwFurtherDetails;
-				var furtherDetailsJSON =  JSON.Parse(wwwFurtherDetails.text);
-
 
 			}
 
