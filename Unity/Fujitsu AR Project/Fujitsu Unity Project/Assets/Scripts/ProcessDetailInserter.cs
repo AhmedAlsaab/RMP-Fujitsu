@@ -129,6 +129,7 @@ public class ProcessDetailInserter : MonoBehaviour {
 
 
 			}
+
 			i++;
 
 		}
@@ -155,16 +156,8 @@ public class ProcessDetailInserter : MonoBehaviour {
 		item.transform.Translate(0, position, 0);
 		item.transform.GetChild(1).Translate(0, (position * -1), 0);
 
-		if(status == 201) {
-			item.GetComponent<Image>().color = new Color32(119, 157, 004, 255);
-
-		} else if (status == 301) {
-			item.GetComponent<Image>().color = new Color32(201, 47, 0, 255);
-
-        } else if (status == 102) {
-			item.GetComponent<Image>().color = new Color32(217, 143, 0, 255); 
-
-        }
+		// Setting color of the Step
+		item.GetComponent<Image>().color = identifyStatus(status);
 
 	} 
 
@@ -195,23 +188,31 @@ public class ProcessDetailInserter : MonoBehaviour {
 
 		individualProcess.GetComponentsInChildren<Text>()[0].text = processTitle;
 
-        // Success
-		if(status == 201) {
-			individualProcess.GetComponentsInChildren<Image>()[1].color = new Color32(119, 157, 004, 255);
-			individualProcess.GetComponentsInChildren<Image>()[3].color = new Color32(119, 157, 004, 255);
-        // Pending
-		} else if (status == 301) {
-			individualProcess.GetComponentsInChildren<Image>()[1].color = new Color32(201, 47, 0, 255);
-			individualProcess.GetComponentsInChildren<Image>()[3].color = new Color32(201, 47, 0, 255);
-        // Failed
-        } else if (status == 102) {
-            individualProcess.GetComponentsInChildren<Image>()[1].color = new Color32(217, 143, 0, 255);
-			individualProcess.GetComponentsInChildren<Image>()[3].color = new Color32(217, 143, 0, 255);
-
-        }
-
+		// Setting colors of Process Health Display.
+		individualProcess.GetComponentsInChildren<Image>()[1].color = identifyStatus(status);
+		individualProcess.GetComponentsInChildren<Image>()[3].color = identifyStatus(status);
 
 		return processStepHolder;
+	} 
+
+	Color32 identifyStatus(int status) {
+		Color32 colorCode = new Color32(217, 143, 0, 255);
+
+		// Success
+		if(status == 201) {
+			colorCode = new Color32(119, 157, 004, 255);
+
+		// Pending
+		} else if (status == 301) {
+			colorCode = new Color32(201, 47, 0, 255);
+
+		// Failed
+		} else if (status == 102) {
+			colorCode = new Color32(217, 143, 0, 255);
+
+		}
+
+		return colorCode;
 	} 
 	// End of referenced code.
 
