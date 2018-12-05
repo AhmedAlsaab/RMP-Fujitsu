@@ -40,9 +40,10 @@ public class ProcessDetailInserter : MonoBehaviour {
 	}
 
 	// Used only for test initialization. //TODO
-	public void Construct (string processPrefabLocation, string stepPrefabLocation) {
+	public void Construct (string processPrefabLocation, string stepPrefabLocation, string stepContainerLocation) {
 		processPrefab = (GameObject)Resources.Load(processPrefabLocation);
 		stepPrefab = (GameObject)Resources.Load(stepPrefabLocation);
+		stepsHolderPrefab = (GameObject)Resources.Load(stepContainerLocation);
 	}
 
 	// THIS PART IS ADOPTED FROM REQUESTING DATA FROM THE WEB REF.

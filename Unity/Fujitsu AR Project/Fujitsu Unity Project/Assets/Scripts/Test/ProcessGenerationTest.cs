@@ -2,6 +2,8 @@
 using UnityEngine.TestTools;
 using NUnit.Framework;
 using System.Collections;
+using System.Text;
+using UnityEngine.UI;
 
 public class ProcessGenerationTest {
 	
@@ -38,11 +40,27 @@ public class ProcessGenerationTest {
 		Assert.AreEqual (targetColor, colourDefined);
 	}
 
-	[Test]
-	public void StepTitle() {
+	[UnityTest]
+	public IEnumerator ProcessTitleAndHealth() {
 		ProcessDetailInserter testInsterter = new ProcessDetailInserter();
-		testInsterter.Construct ("Prefabs/Process Item","Prefabs/Step");
+		testInsterter.Construct ("Prefabs/Process Item","Prefabs/Step","Prefabs/Process Details General");
 
+		GameObject parentObj = new GameObject();
+		testInsterter.createProcess (parentObj, "Test Process", 201);
 
+		yield return null;
+
+		GameObject createdProcess = GameObject.FindGameObjectWithTag ("Process");
+
+		string title = createdProcess.GetComponentsInChildren<Text>()[0].text;
+
+		Color status1 = createdProcess.GetComponentsInChildren<Image> () [1].color;
+		Color status2 = createdProcess.GetComponentsInChildren<Image> () [3].color;
+
+		Color targetStatusColor = new Color32(119, 157, 004, 255);
+
+		Assert.AreEqual (title, "Test Process");
+		Assert.AreEqual (status1, targetStatusColor);
+		Assert.AreEqual (status2, targetStatusColor);
 	}
 }
