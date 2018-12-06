@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -259,9 +259,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Popup: {fileID: 0}
-  IntroScreen: {fileID: 2078649097}
-  CampaignProcesses: {fileID: 1014922906}
-  FairProcesses: {fileID: 1633144214}
+  IntroScreen: {fileID: 0}
+  CampaignProcesses: {fileID: 0}
+  FairProcesses: {fileID: 0}
 --- !u!1 &116096324
 GameObject:
   m_ObjectHideFlags: 0
@@ -1233,7 +1233,7 @@ MonoBehaviour:
   processPrefab: {fileID: 1056507240926720, guid: 76ecf85f424926b40b270a7275c4bf34,
     type: 2}
   processParent: {fileID: 1014922906}
-  stepsHolder: {fileID: 1939748967169672, guid: 67ecf861cd231e2458268bce9e340751,
+  stepsHolderPrefab: {fileID: 1939748967169672, guid: 67ecf861cd231e2458268bce9e340751,
     type: 2}
 --- !u!1 &1024633412
 GameObject:
@@ -1381,9 +1381,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Popup: {fileID: 0}
-  IntroScreen: {fileID: 2078649097}
-  CampaignProcesses: {fileID: 1014922906}
-  FairProcesses: {fileID: 1633144214}
+  IntroScreen: {fileID: 0}
+  CampaignProcesses: {fileID: 0}
+  FairProcesses: {fileID: 0}
 --- !u!43 &1057128821
 Mesh:
   m_ObjectHideFlags: 0
@@ -2178,9 +2178,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Popup: {fileID: 0}
-  IntroScreen: {fileID: 2078649097}
-  CampaignProcesses: {fileID: 1014922906}
-  FairProcesses: {fileID: 1633144214}
+  IntroScreen: {fileID: 0}
+  CampaignProcesses: {fileID: 0}
+  FairProcesses: {fileID: 0}
 --- !u!114 &1758394572
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -126,7 +126,7 @@ GameObject:
   - component: {fileID: 114941497695971554}
   m_Layer: 5
   m_Name: Process Details General
-  m_TagString: Untagged
+  m_TagString: Process Detail
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

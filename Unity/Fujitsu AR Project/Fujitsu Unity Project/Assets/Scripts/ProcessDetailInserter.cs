@@ -30,24 +30,30 @@ public class ProcessDetailInserter : MonoBehaviour {
 
 	private int processLimit = 5;
 
-	public GameObject stepsHolder;
+	public GameObject stepsHolderPrefab;
+
+
 	// Use this for initialization
 	void Start () {
-		StartCoroutine(GetText());
+		StartCoroutine(HandleJSON());
 
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
+	// Used only for test initialization.
+	// REF: BASED ON EXAMPLE https://www.youtube.com/watch?v=TyxDg70hc3g BY Infallible Code Published on Jul 4, 2017
+	// ACCESSED ON 05/12/2018
+	public void Construct (string processPrefabLocation, string stepPrefabLocation, string stepContainerLocation) {
+		processPrefab = (GameObject)Resources.Load(processPrefabLocation);
+		stepPrefab = (GameObject)Resources.Load(stepPrefabLocation);
+		stepsHolderPrefab = (GameObject)Resources.Load(stepContainerLocation);
+	}
+	// END OF REFERENCED CODE.
 
 	// THIS PART IS ADOPTED FROM REQUESTING DATA FROM THE WEB REF.
 	// DATE ACCESSED 17.11.2018.
 	// EXAMPLE FROM OFFICIAL DOCUMENTATION.
 	// LOGIN HEADER INSPIRED BY TEAM 7 AR Project, Oliver Simon c1633899 20/11/2018
-	IEnumerator GetText() {
+	private IEnumerator HandleJSON() {
 		var username = "cristiano.bellucci.fujitsu+cardiffadmin@gmail.com";
 		var password = "Millennium";
 
@@ -73,7 +79,7 @@ public class ProcessDetailInserter : MonoBehaviour {
 		foreach(var arrayItem in arrayOfProcesses.Values) {
 			if(i < processLimit) {
 
-				GameObject createdProcess = createProcess (arrayItem["title"].Value, arrayItem["category"][0]["label"].AsInt);
+				GameObject createdProcess = createProcess (processParent, arrayItem["title"].Value, arrayItem["category"][0]["label"].AsInt);
 
 				// Adding in title for process.
 				createdProcess.GetComponentsInChildren<Text>()[0].text = arrayItem["title"].Value;
@@ -112,31 +118,18 @@ public class ProcessDetailInserter : MonoBehaviour {
 					}
 					counter++;
 				}
-					
-
-
-				// Getting step path.
-				var arrayOfSteps = detailJSON["feed"]["entry"]["content"]["P_value"]["path"].AsArray;
-
-				// Getting process step details.
-				string furtherDetailsLink= detailJSON["feed"]["link"][10]["href"];
-
-				Debug.Log ("Request For Further Details To " + baseURL + furtherDetailsLink);
-				WWW wwwFurtherDetails = new WWW(baseURL + furtherDetailsLink, null, headers);
-
-				yield return wwwFurtherDetails;
-				var furtherDetailsJSON =  JSON.Parse(wwwFurtherDetails.text);
-
 
 			}
+
 			i++;
 
 		}
 	}
 
-	void createStep(GameObject parent, int position, string name, int status, string owner, string department, string comment = "No comment available.") {
-		stepPrefab.GetComponentsInChildren<Text>()[0].text = name; // Step title.
-		stepPrefab.GetComponentsInChildren<Text>()[1].text = name; // Step Box title.
+
+	public void createStep(GameObject parent, int position, string name, int status, string owner, string department, string comment = "No comment available.") {
+		stepPrefab.GetComponentsInChildren<Text>()[0].text = name; // Step Main Button title.
+		stepPrefab.GetComponentsInChildren<Text>()[1].text = name; // Step Pop Up Box title.
 
 		stepPrefab.GetComponentsInChildren<Text>()[3].text = department; // Step Department.
 		stepPrefab.GetComponentsInChildren<Text>()[5].text = owner; // Step Owner.
@@ -155,18 +148,11 @@ public class ProcessDetailInserter : MonoBehaviour {
 		item.transform.Translate(0, position, 0);
 		item.transform.GetChild(1).Translate(0, (position * -1), 0);
 
-		if(status == 201) {
-			item.GetComponent<Image>().color = new Color32(119, 157, 004, 255);
-
-		} else if (status == 301) {
-			item.GetComponent<Image>().color = new Color32(201, 47, 0, 255);
-
-        } else if (status == 102) {
-			item.GetComponent<Image>().color = new Color32(217, 143, 0, 255); 
-
-        }
+		// Setting color of the Step
+		item.GetComponent<Image>().color = identifyStatus(status);
 
 	} 
+
 
 	// Setting parent game object of created child game objects.
 	// Based on example https://answers.unity.com/questions/586985/how-to-make-an-instantiated-prefab-a-child-of-a-ga.html
@@ -175,13 +161,13 @@ public class ProcessDetailInserter : MonoBehaviour {
 	// BASED ON ANSWER BY pfreese · Mar 18, 2015 at 05:28 AM On "instantiating elements in UI/Canvas".
 	// https://answers.unity.com/questions/926254/instantiating-elements-in-uicanvas.html
 	// ACCESSED ON 22/11/2018
-	GameObject createProcess(string processTitle, int status) {
+	public GameObject createProcess(GameObject processParentIn, string processTitle, int status) {
 		GameObject individualProcess = Instantiate(processPrefab);
-		individualProcess.transform.SetParent(processParent.transform, false);
+		individualProcess.transform.SetParent(processParentIn.transform, false);
 
 		individualProcess.transform.Translate(0, processAligner, 0);
 
-		GameObject processStepHolder = Instantiate(stepsHolder);
+		GameObject processStepHolder = Instantiate(stepsHolderPrefab);
 		processStepHolder.transform.SetParent(individualProcess.transform, false);
 
 		// REF: DOCUMENTATION: https://docs.unity3d.com/ScriptReference/Transform.GetChild.html
@@ -195,23 +181,33 @@ public class ProcessDetailInserter : MonoBehaviour {
 
 		individualProcess.GetComponentsInChildren<Text>()[0].text = processTitle;
 
-        // Success
-		if(status == 201) {
-			individualProcess.GetComponentsInChildren<Image>()[1].color = new Color32(119, 157, 004, 255);
-			individualProcess.GetComponentsInChildren<Image>()[3].color = new Color32(119, 157, 004, 255);
-        // Pending
-		} else if (status == 301) {
-			individualProcess.GetComponentsInChildren<Image>()[1].color = new Color32(201, 47, 0, 255);
-			individualProcess.GetComponentsInChildren<Image>()[3].color = new Color32(201, 47, 0, 255);
-        // Failed
-        } else if (status == 102) {
-            individualProcess.GetComponentsInChildren<Image>()[1].color = new Color32(217, 143, 0, 255);
-			individualProcess.GetComponentsInChildren<Image>()[3].color = new Color32(217, 143, 0, 255);
-
-        }
-
+		// Setting colors of Process Health Display.
+		individualProcess.GetComponentsInChildren<Image>()[1].color = identifyStatus(status);
+		individualProcess.GetComponentsInChildren<Image>()[3].color = identifyStatus(status);
 
 		return processStepHolder;
+	} 
+
+
+	public Color32 identifyStatus(int status) {
+		Color32 colorCode = new Color32(217, 143, 0, 255);
+
+		// Success colour
+		if(status == 201) {
+			colorCode = new Color32(119, 157, 004, 255);
+
+		// Failed colour
+		} else if (status == 301) {
+			colorCode = new Color32(217, 143, 0, 255);
+
+
+		// Pending colour
+		} else if (status == 102) {
+			colorCode = new Color32 (201, 47, 0, 255);
+
+		}
+
+		return colorCode;
 	} 
 	// End of referenced code.
 
