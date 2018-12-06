@@ -15,11 +15,19 @@ public class ProjectScreen : MonoBehaviour, ITrackableEventHandler {
     public GameObject MarketingCanvas;
     private TrackableBehaviour trackableBehaviour;
     private bool ShowGUIButton = false;
+    private bool ProjectButtonsCreated = false;
+    public GameObject[] ProjectButtonArray;
     private Rect ButtonRect = new Rect(50, 50, 120, 60);
-    private int projectLimit = 1;
+    private int projectLimit = 5;
     public GameObject projectPrefab;
     public GameObject projectParent;
     private int processAligner = 0;
+    public GameObject pChoiceContainer;
+    private Dictionary<GameObject, bool> check = new Dictionary<GameObject, bool>();
+    private bool BtnAssignerCalled = false;
+    public GameObject IntroScreen;
+    public GameObject ProjectIntroScreen;
+    
 	
 	// Use this for initialization
 	void Start () {
@@ -30,6 +38,7 @@ public class ProjectScreen : MonoBehaviour, ITrackableEventHandler {
         }
 
 		StartCoroutine(GetText());
+
 	}
 
  IEnumerator GetText() {
@@ -65,16 +74,95 @@ public class ProjectScreen : MonoBehaviour, ITrackableEventHandler {
                 // Adding in title for process.
                 createdProject.GetComponentsInChildren<Text>()[0].text = arrayItem["title"].Value;
 
-            }
-        }
-	}
-	
+		  
+			}
+			i++;
 
+		}
+	}
+
+    // https://answers.unity.com/questions/52683/how-i-can-call-a-function-once-on-the-update-funct.html
+    // Calling an update function once
     void Update()
     {
-                        // MarketingCanvas.SetActive(false);
+
+        try
+        {
+            ProjectButtonArray = GameObject.FindGameObjectsWithTag("ProjectButton");
+
+            if (ProjectButtonArray.Length >= 1) //size u want
+            {
+                if (BtnAssignerCalled == false)
+                {
+                    ProjectBtnAssigner();
+                }
+            }
+        }
+        catch (IndexOutOfRangeException e)
+        {
+            //print error if u want
+        }
 
     }
+   void ProjectBtnAssigner()
+    {
+        foreach (GameObject gameObject in ProjectButtonArray)
+        {
+            GetComponentsInChildren<Button>()[0].onClick.AddListener(OpenMarketingCampaignProcessList);
+            GetComponentsInChildren<Button>()[1].onClick.AddListener(OpenMarketingFairProcessList);
+        }
+        BtnAssignerCalled = true;
+    }
+
+   
+
+    // Find Intro screen and Activiate
+     
+        // Find Intro screen and Deactivate
+
+    void IntroScreenFinderAndDeactivator()
+    {
+        GameObject IntroScreen = GameObject.FindGameObjectWithTag("IntroScreen");
+        IntroScreen.transform.SetAsFirstSibling();
+
+    }
+
+        // Find Marketing Campaign Process list and Activiate
+
+    void MarketingCampaignFinderAndActivator()
+    {
+        GameObject CampaignProcessList = GameObject.FindGameObjectWithTag("CampaignList");
+        CampaignProcessList.transform.SetAsLastSibling();
+    }
+            // Find Marketing Fair Process list and Activiate
+
+    void MarketingFairFinderAndActivator()
+    {
+        GameObject FairProcessList = GameObject.FindGameObjectWithTag("FairList");
+        FairProcessList.transform.SetAsLastSibling();
+    }
+
+    // Call Marketing Campaign process finder
+    // Call Intro Screen Deactivator 
+    void OpenMarketingCampaignProcessList()
+    {
+        IntroScreenFinderAndDeactivator();
+        MarketingCampaignFinderAndActivator();
+    }
+
+    // Call Marketing Fair process finder
+    // Call Intro Screen Deactivator 
+
+    void OpenMarketingFairProcessList()
+    {
+        IntroScreenFinderAndDeactivator();
+        MarketingFairFinderAndActivator();
+    }
+
+   
+
+    
+   
 
     GameObject createProject(string projectTitle)
     {
@@ -83,12 +171,14 @@ public class ProjectScreen : MonoBehaviour, ITrackableEventHandler {
 
         individualProject.transform.Translate(0, processAligner, 0);
 
-        processAligner -= 75;
-
         individualProject.GetComponentsInChildren<Text>()[0].text = projectTitle;
+
+        processAligner -= 75;
 
         return individualProject;
     }
+
+    // TRACKABLE MANIPULATION CODE SEGMENT
 
     public void OnTrackableStateChanged(
         TrackableBehaviour.Status previousStatus,

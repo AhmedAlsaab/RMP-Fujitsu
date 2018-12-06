@@ -5,6 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - ProcessDetail
+  - ProjectButton
+  - ProjectBtnContainer
+  - CampaignList
+  - FairList
+  - IntroScreen
+  - BackToProjects
   layers:
   - Default
   - TransparentFX
