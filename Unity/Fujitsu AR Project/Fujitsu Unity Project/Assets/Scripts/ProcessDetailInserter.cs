@@ -39,12 +39,15 @@ public class ProcessDetailInserter : MonoBehaviour {
 
 	}
 
-	// Used only for test initialization. //TODO
+	// Used only for test initialization.
+	// REF: BASED ON EXAMPLE https://www.youtube.com/watch?v=TyxDg70hc3g BY Infallible Code Published on Jul 4, 2017
+	// ACCESSED ON 05/12/2018
 	public void Construct (string processPrefabLocation, string stepPrefabLocation, string stepContainerLocation) {
 		processPrefab = (GameObject)Resources.Load(processPrefabLocation);
 		stepPrefab = (GameObject)Resources.Load(stepPrefabLocation);
 		stepsHolderPrefab = (GameObject)Resources.Load(stepContainerLocation);
 	}
+	// END OF REFERENCED CODE.
 
 	// THIS PART IS ADOPTED FROM REQUESTING DATA FROM THE WEB REF.
 	// DATE ACCESSED 17.11.2018.

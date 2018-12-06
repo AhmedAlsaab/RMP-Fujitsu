@@ -5,6 +5,11 @@ using System.Collections;
 using System.Text;
 using UnityEngine.UI;
 
+
+// REF: BASED ON UNITY DOCUMENTATION: https://docs.unity3d.com/Manual/testing-editortestsrunner.html
+// REF: BASED ON UNITY DOCUMENTATION: https://docs.unity3d.com/Manual/PlaymodeTestFramework.html
+// REF: BASED ON EXAMPLE https://www.youtube.com/watch?v=TyxDg70hc3g BY Infallible Code Published on Jul 4, 2017
+// ACCESSED ON 05/12/2018
 public class ProcessGenerationTest {
 	
 	[Test]
@@ -84,4 +89,6 @@ public class ProcessGenerationTest {
 
 		Assert.AreEqual (title, "Test Step");
 	}
+
+	// END OF REFERENCED CODE
 }
