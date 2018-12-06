@@ -12,7 +12,6 @@ using Vuforia;
 public class ProjectScreen : MonoBehaviour, ITrackableEventHandler {
 
     private string baseURL = "https://live.runmyprocess.com/";
-    public GameObject MarketingCanvas;
     private TrackableBehaviour trackableBehaviour;
     private bool ShowGUIButton = false;
     private bool ProjectButtonsCreated = false;
@@ -22,11 +21,9 @@ public class ProjectScreen : MonoBehaviour, ITrackableEventHandler {
     public GameObject projectPrefab;
     public GameObject projectParent;
     private int processAligner = 0;
-    public GameObject pChoiceContainer;
     private Dictionary<GameObject, bool> check = new Dictionary<GameObject, bool>();
     private bool BtnAssignerCalled = false;
-    public GameObject IntroScreen;
-    public GameObject ProjectIntroScreen;
+    
     
 	
 	// Use this for initialization
