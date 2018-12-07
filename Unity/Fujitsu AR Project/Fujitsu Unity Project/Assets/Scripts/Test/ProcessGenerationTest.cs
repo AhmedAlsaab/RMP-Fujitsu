@@ -29,7 +29,7 @@ public class ProcessGenerationTest {
 
 		Color32 colourDefined = testInsterter.identifyStatus (301);
 
-		Color32 targetColor = new Color32(217, 143, 0, 255);
+		Color32 targetColor =  new Color32 (201, 47, 0, 255);
 
 		Assert.AreEqual (targetColor, colourDefined);
 	}
@@ -40,7 +40,7 @@ public class ProcessGenerationTest {
 
 		Color32 colourDefined = testInsterter.identifyStatus (102);
 
-		Color32 targetColor = new Color32 (201, 47, 0, 255);
+		Color32 targetColor = new Color32(217, 143, 0, 255);
 
 		Assert.AreEqual (targetColor, colourDefined);
 	}
