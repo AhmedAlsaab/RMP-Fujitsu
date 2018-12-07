@@ -14,12 +14,7 @@ public class ActiveObjects : MonoBehaviour {
         Popup.SetActive(false);
         Popup.transform.SetAsLastSibling();
 
-        IntroScreen.SetActive(true);
-
-        CampaignProcesses.SetActive(false);
-        FairProcesses.SetActive(false);
-
-
+       
     }
 
     // Update is called once per frame
