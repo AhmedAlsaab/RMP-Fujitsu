@@ -107,17 +107,34 @@ public class ProcessDetailInserter : MonoBehaviour {
 
 				var arrayOfStepDetails = detailJSON["feed"]["entry"]["content"]["P_value"]["path"].AsArray;
 
+				// Finding who is responsible for the process.
+				var RelatedPersonLink = detailJSON["feed"]["link"][2]["href"];
+				WWW wwwForPerson = new WWW(baseURL + RelatedPersonLink, null, headers);
+				Debug.Log ("Request To " + baseURL + RelatedPersonLink);
+
+				yield return wwwForPerson;
+				var detailForFindingPersonJSON =  JSON.Parse(wwwForPerson.text);
+				var findingTheAssigneeURL = detailForFindingPersonJSON["feed"]["entry"]["content"]["src"];
+
+				WWW wwwForPersonName = new WWW(baseURL + findingTheAssigneeURL, null, headers);
+				Debug.Log ("Request To " + baseURL + findingTheAssigneeURL);
+				yield return wwwForPersonName;
+				var processDetailsAndNameJSON =  JSON.Parse(wwwForPersonName.text);
+				var theAsignee = processDetailsAndNameJSON["feed"]["entry"]["link"][0]["title"].Value;
+				// End of finding who is responsible for the process.
+
 				int counter = 0;
 				int itemAligner = 0;
 				foreach (var stepItem in arrayOfRelatedSteps.Values) {
 					if(stepItem["type"] == "activity") {
-						createStep(createdProcess, itemAligner, stepItem["name"].Value, arrayOfStepDetails[counter]["st"], stepItem["action"]["service"]["request"]["assignedto"]["P_value"].Value,
+						createStep(createdProcess, itemAligner, stepItem["name"].Value, arrayOfStepDetails[counter]["st"], theAsignee,
 							processStepsArray["feed"]["entry"]["process"]["pool"]["lane"]["name"]);
 						
 						itemAligner -= 75;
 					}
 					counter++;
 				}
+					
 
 			}
 
