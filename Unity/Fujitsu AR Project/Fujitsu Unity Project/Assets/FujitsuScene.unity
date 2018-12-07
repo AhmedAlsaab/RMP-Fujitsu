@@ -1375,7 +1375,7 @@ MonoBehaviour:
   processPrefab: {fileID: 1056507240926720, guid: 76ecf85f424926b40b270a7275c4bf34,
     type: 2}
   processParent: {fileID: 1014922906}
-  stepsHolder: {fileID: 1939748967169672, guid: 67ecf861cd231e2458268bce9e340751,
+  stepsHolderPrefab: {fileID: 1939748967169672, guid: 67ecf861cd231e2458268bce9e340751,
     type: 2}
 --- !u!1 &1050834090
 GameObject:
