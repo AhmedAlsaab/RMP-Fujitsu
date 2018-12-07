@@ -233,13 +233,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44299ade030e0404abc8d6e79ad9f7b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MarketingCanvas: {fileID: 0}
   ProjectButtonArray: []
   projectPrefab: {fileID: 0}
   projectParent: {fileID: 0}
-  pChoiceContainer: {fileID: 0}
-  IntroScreen: {fileID: 0}
-  ProjectIntroScreen: {fileID: 0}
 --- !u!114 &328679744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -595,8 +591,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 138.5, y: 231.68}
-  m_SizeDelta: {x: -277, y: -463.34}
+  m_AnchoredPosition: {x: 238.9, y: -208.24}
+  m_SizeDelta: {x: -477.8, y: -416.47}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &479490796
 MonoBehaviour:
@@ -604,7 +600,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 479490794}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -1707,7 +1703,7 @@ GameObject:
   - component: {fileID: 1113069524}
   - component: {fileID: 1113069523}
   m_Layer: 5
-  m_Name: ButtonContainer
+  m_Name: BackButtonContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2143,14 +2139,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44299ade030e0404abc8d6e79ad9f7b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MarketingCanvas: {fileID: 0}
   ProjectButtonArray: []
-  projectPrefab: {fileID: 1125135097917332, guid: 5108981982322334a9a2597b39e40aed,
+  projectPrefab: {fileID: 1678319084196092, guid: 5108981982322334a9a2597b39e40aed,
     type: 2}
   projectParent: {fileID: 501041364}
-  pChoiceContainer: {fileID: 0}
-  IntroScreen: {fileID: 1838097793}
-  ProjectIntroScreen: {fileID: 1838097793}
 --- !u!114 &1838097796
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2197,10 +2189,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3fdc50700ee9ee4aa91b1d2d6491b86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StatusContainerPrefab: {fileID: 1591723993803988, guid: da81eff1bdfa57c4891f06504263554b,
+  StatusContainerPrefab: {fileID: 1484121275659542, guid: ce2213b18fb86f6418f81ec3fe902993,
     type: 2}
   StatusContainerParent: {fileID: 479490794}
-  StatusCounterContainer: {fileID: 0}
 --- !u!1 &1887689908
 GameObject:
   m_ObjectHideFlags: 0
@@ -2342,13 +2333,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44299ade030e0404abc8d6e79ad9f7b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MarketingCanvas: {fileID: 1887689908}
   ProjectButtonArray: []
   projectPrefab: {fileID: 0}
   projectParent: {fileID: 0}
-  pChoiceContainer: {fileID: 0}
-  IntroScreen: {fileID: 0}
-  ProjectIntroScreen: {fileID: 0}
 --- !u!1 &1987281610
 GameObject:
   m_ObjectHideFlags: 0
