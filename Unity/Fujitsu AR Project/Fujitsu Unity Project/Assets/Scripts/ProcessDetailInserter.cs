@@ -64,7 +64,7 @@ public class ProcessDetailInserter : MonoBehaviour {
 		headers ["Authorization"] = "Basic " + credentials;  // FROM TEAM 7
 		headers ["Accept"] = "application/json";
 
-		WWW www = new WWW("https://live.runmyprocess.com/live/112761542179152739/requestreport/CWL%20Market%20Campaign%20Report.csv?operator=EE%20EE%20IS&column=name%20status%20events%20published%20updated&value=215356%20ACCEPTANCE%20NULL&filter=PROJECT%20MODE%20PARENT&nb=20&first=0&method=GET&P_rand=34765", null, headers);
+		WWW www = new WWW("https://live.runmyprocess.com/live/112761542179152739/requestreport/CWL%20Market%20Campaign%20Report.csv?operator=EE%20EE%20IS%20IN&column=name%20status%20events%20published%20updated&value=215356%20ACCEPTANCE%20NULL%20301%7C300&filter=PROJECT%20MODE%20PARENT%20STATUS&nb=20&first=0&method=GET&P_rand=69516", null, headers);
 
 		yield return www;
 
@@ -77,6 +77,7 @@ public class ProcessDetailInserter : MonoBehaviour {
 
 		// Getting the process report.
 		foreach(var arrayItem in arrayOfProcesses.Values) {
+
 			if(i < processLimit) {
 
 				GameObject createdProcess = createProcess (processParent, arrayItem["title"].Value, arrayItem["category"][0]["label"].AsInt);
@@ -107,17 +108,68 @@ public class ProcessDetailInserter : MonoBehaviour {
 
 				var arrayOfStepDetails = detailJSON["feed"]["entry"]["content"]["P_value"]["path"].AsArray;
 
+				// Finding who is responsible for the process.
+				var RelatedPersonLink = detailJSON["feed"]["link"][2]["href"];
+				WWW wwwForPerson = new WWW(baseURL + RelatedPersonLink, null, headers);
+				Debug.Log ("Request To " + baseURL + RelatedPersonLink);
+
+				yield return wwwForPerson;
+				var detailForFindingPersonJSON =  JSON.Parse(wwwForPerson.text);
+				var findingTheAssigneeURL = detailForFindingPersonJSON["feed"]["entry"]["content"]["src"];
+
+				WWW wwwForPersonName = new WWW(baseURL + findingTheAssigneeURL, null, headers);
+				Debug.Log ("Requesting For Person Name To " + baseURL + findingTheAssigneeURL);
+
+				yield return wwwForPersonName;
+				var processDetailsAndNameJSON =  JSON.Parse(wwwForPersonName.text);
+				var theAsignee = processDetailsAndNameJSON["feed"]["entry"]["link"][0]["title"].Value;
+
+				if (theAsignee == null || theAsignee == "") {
+					theAsignee = "No assigned.";
+
+				}
+
+				Debug.Log (wwwForPersonName.text);
+				// End of finding who is responsible for the process.
+
+				var failureCommentToDisplay = "No comments on this one.";
+
+				// Getting details if the process is failing.
+				if (arrayItem["category"][0]["label"].AsInt == 301) {
+					// Finding why the process is failing.
+					string furtherDetailsURL = detailJSON["feed"]["link"][10]["href"];
+					WWW wwwForComment = new WWW(baseURL + furtherDetailsURL, null, headers);
+
+					Debug.Log ("Requesting For Comment To " + baseURL + furtherDetailsURL);
+
+					yield return wwwForComment;
+					Debug.Log (wwwForComment.text);
+					var failureCommentJSON =  JSON.Parse(wwwForComment.text);
+					var failureComment = failureCommentJSON["feed"]["entry"][2]["content"]["P_value"]["P_error"];
+					Debug.Log ("The Comment: " + failureComment);
+
+					if (failureComment != null || failureComment != "") {
+							failureCommentToDisplay = failureComment;
+
+						}
+
+				}
+				// End of why the process is failing.
+
+
+
 				int counter = 0;
 				int itemAligner = 0;
 				foreach (var stepItem in arrayOfRelatedSteps.Values) {
 					if(stepItem["type"] == "activity") {
-						createStep(createdProcess, itemAligner, stepItem["name"].Value, arrayOfStepDetails[counter]["st"], stepItem["action"]["service"]["request"]["assignedto"]["P_value"].Value,
-							processStepsArray["feed"]["entry"]["process"]["pool"]["lane"]["name"]);
+						createStep(createdProcess, itemAligner, stepItem["name"].Value, arrayOfStepDetails[counter]["st"], theAsignee,
+							processStepsArray["feed"]["entry"]["process"]["pool"]["lane"]["name"], failureCommentToDisplay);
 						
 						itemAligner -= 75;
 					}
 					counter++;
 				}
+					
 
 			}
 
@@ -198,12 +250,13 @@ public class ProcessDetailInserter : MonoBehaviour {
 
 		// Failed colour
 		} else if (status == 301) {
-			colorCode = new Color32(217, 143, 0, 255);
+			
+			colorCode = new Color32 (201, 47, 0, 255);
 
 
 		// Pending colour
 		} else if (status == 102) {
-			colorCode = new Color32 (201, 47, 0, 255);
+			colorCode = new Color32(217, 143, 0, 255);
 
 		}
 
