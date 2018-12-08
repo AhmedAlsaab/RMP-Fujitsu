@@ -10,15 +10,19 @@ using SimpleJSON;
 
 public class ProjectHealth : MonoBehaviour {
 
+   
     private string baseURL = "https://live.runmyprocess.com/";
     private int StatusLimit = 100;
     public GameObject StatusContainerPrefab;
     public GameObject StatusContainerParent;
     private int StatusAligner = 0;
     int Count301 = 0;
-        int Count201 = 0;
-        int Count102 = 0;
-        int TotalStatusCount = 0;
+    int Count201 = 0;
+    int Count102 = 0;
+    int TotalStatusCount = 0;
+    int FailingAndPending = 0;
+    
+   
 
    
 
@@ -30,8 +34,16 @@ public class ProjectHealth : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+
+       
+       
+
+       
+      
 	}
+
+
+   
 
     
 
@@ -46,6 +58,7 @@ public class ProjectHealth : MonoBehaviour {
         StatusCodeBox.GetComponentsInChildren<Text>()[0].text = ((c201 / total) * 100).ToString().Split('.')[0] + "%";
         StatusCodeBox.GetComponentsInChildren<Text>()[1].text = ((c102 / total) * 100).ToString().Split('.')[0] + "%";
         StatusCodeBox.GetComponentsInChildren<Text>()[2].text = ((c301 / total) * 100).ToString().Split('.')[0] + "%";
+        
    
 
 
@@ -117,8 +130,16 @@ public class ProjectHealth : MonoBehaviour {
             TotalStatusCount++;
 
 		}
-
+        RadialBar.Status102 = Count102;
+        RadialBar.Status201 = Count201;
+        RadialBar.Status301 = Count301;
+        RadialBar.TotalStatusCounter = TotalStatusCount;
+        FailingAndPending = (Count301 + Count102);
+        RadialBar.FailingAndPendingStatus = FailingAndPending;
         createStatus(Count102, Count201, Count301, TotalStatusCount);
+        
+        
+        
     }
 
         
