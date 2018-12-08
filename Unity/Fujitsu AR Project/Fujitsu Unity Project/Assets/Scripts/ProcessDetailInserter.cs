@@ -108,9 +108,7 @@ public class ProcessDetailInserter : MonoBehaviour {
 
 				var arrayOfStepDetails = detailJSON["feed"]["entry"]["content"]["P_value"]["path"].AsArray;
 
-
-				// End of finding who is responsible for the process.
-
+	
 				var failureCommentToDisplay = "No comments on this one.";
 
 				// Getting details if the process is failing.
@@ -139,8 +137,7 @@ public class ProcessDetailInserter : MonoBehaviour {
 				// End of why the process is failing.
 
 
-				var theAsignee = "No assigned.";
-
+				var theAsignee = "Not assigned.";
 				int counter = 0;
 				int itemAligner = 0;
 				foreach (var stepItem in arrayOfRelatedSteps.Values) {

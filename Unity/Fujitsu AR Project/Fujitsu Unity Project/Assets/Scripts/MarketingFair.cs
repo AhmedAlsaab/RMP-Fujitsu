@@ -108,29 +108,6 @@ public class MarketingFair : MonoBehaviour {
 
 				var arrayOfStepDetails = detailJSON["feed"]["entry"]["content"]["P_value"]["path"].AsArray;
 
-				// Finding who is responsible for the process.
-				var RelatedPersonLink = detailJSON["feed"]["link"][2]["href"];
-				WWW wwwForPerson = new WWW(baseURL + RelatedPersonLink, null, headers);
-				// Debug.Log ("Request To " + baseURL + RelatedPersonLink);
-
-				yield return wwwForPerson;
-				var detailForFindingPersonJSON =  JSON.Parse(wwwForPerson.text);
-				var findingTheAssigneeURL = detailForFindingPersonJSON["feed"]["entry"]["content"]["src"];
-
-				WWW wwwForPersonName = new WWW(baseURL + findingTheAssigneeURL, null, headers);
-				// Debug.Log ("Requesting For Person Name To " + baseURL + findingTheAssigneeURL);
-
-				yield return wwwForPersonName;
-				var processDetailsAndNameJSON =  JSON.Parse(wwwForPersonName.text);
-				var theAsignee = processDetailsAndNameJSON["feed"]["entry"]["link"][0]["title"].Value;
-
-				if (theAsignee == null || theAsignee == "") {
-					theAsignee = "No assigned.";
-
-				}
-
-				// Debug.Log (wwwForPersonName.text);
-				// End of finding who is responsible for the process.
 
 				var failureCommentToDisplay = "No comments on this one.";
 
@@ -160,7 +137,7 @@ public class MarketingFair : MonoBehaviour {
 				// End of why the process is failing.
 
 
-
+				var theAsignee = "Not assigned.";
 				int counter = 0;
 				int itemAligner = 0;
 				foreach (var stepItem in arrayOfRelatedSteps.Values) {
