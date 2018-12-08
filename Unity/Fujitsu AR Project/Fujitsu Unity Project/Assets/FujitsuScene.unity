@@ -1739,7 +1739,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a917f0af64a6423093132dab321c15f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1113069524
+  stepPrefab: {fileID: 1917616146643354, guid: a3635aab3d144874d914b7cd2fec035c, type: 2}
+  processPrefab: {fileID: 1056507240926720, guid: 76ecf85f424926b40b270a7275c4bf34,
+    type: 2}
+  processParent: {fileID: 1633144214}
+  stepsHolderPrefab: {fileID: 1939748967169672, guid: 67ecf861cd231e2458268bce9e340751,
+    type: 2}
+--- !u!114 &1633144218
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}

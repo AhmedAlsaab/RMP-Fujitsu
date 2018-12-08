@@ -64,7 +64,7 @@ public class ProcessDetailInserter : MonoBehaviour {
 		headers ["Authorization"] = "Basic " + credentials;  // FROM TEAM 7
 		headers ["Accept"] = "application/json";
 
-		WWW www = new WWW("https://live.runmyprocess.com/live/112761542179152739/requestreport/CWL%20Market%20Campaign%20Report.csv?operator=EE%20EE%20IS%20IN&column=name%20status%20events%20published%20updated&value=215356%20ACCEPTANCE%20NULL%20301%7C300&filter=PROJECT%20MODE%20PARENT%20STATUS&nb=20&first=0&method=GET&P_rand=69516", null, headers);
+		WWW www = new WWW("https://live.runmyprocess.com/live/112761542179152739/requestreport/CWL%20Market%20Campaign%20Report.csv?operator=EE%20EE%20IS&column=name%20status%20events%20published%20updated&value=215356%20ACCEPTANCE%20NULL&filter=PROJECT%20MODE%20PARENT&nb=20&first=0&method=GET&P_rand=34765", null, headers);
 
 		yield return www;
 
@@ -78,7 +78,7 @@ public class ProcessDetailInserter : MonoBehaviour {
 		// Getting the process report.
 		foreach(var arrayItem in arrayOfProcesses.Values) {
 
-			if(i < processLimit) {
+			if(i < processLimit && arrayItem["category"][0]["label"].AsInt == 301) {
 
 				GameObject createdProcess = createProcess (processParent, arrayItem["title"].Value, arrayItem["category"][0]["label"].AsInt);
 
@@ -89,7 +89,7 @@ public class ProcessDetailInserter : MonoBehaviour {
 				string processNameDetailURLPath = arrayItem["link"][0]["href"];
 
 				WWW wwwForNameDetail = new WWW(baseURL + processNameDetailURLPath, null, headers);
-				Debug.Log ("Request To " + baseURL + processNameDetailURLPath);
+				// Debug.Log ("Request To " + baseURL + processNameDetailURLPath);
 
 				yield return wwwForNameDetail;
 
@@ -101,43 +101,23 @@ public class ProcessDetailInserter : MonoBehaviour {
 				string processDetailURLPath = arrayItem["content"]["src"];
 
 				WWW wwwForDetail = new WWW(baseURL + processDetailURLPath, null, headers);
-				Debug.Log ("Request To " + baseURL + processDetailURLPath);
+				// Debug.Log ("Request To " + baseURL + processDetailURLPath);
 
 				yield return wwwForDetail;
 				var detailJSON =  JSON.Parse(wwwForDetail.text);
 
 				var arrayOfStepDetails = detailJSON["feed"]["entry"]["content"]["P_value"]["path"].AsArray;
 
-				// Finding who is responsible for the process.
-				var RelatedPersonLink = detailJSON["feed"]["link"][2]["href"];
-				WWW wwwForPerson = new WWW(baseURL + RelatedPersonLink, null, headers);
-				Debug.Log ("Request To " + baseURL + RelatedPersonLink);
-
-				yield return wwwForPerson;
-				var detailForFindingPersonJSON =  JSON.Parse(wwwForPerson.text);
-				var findingTheAssigneeURL = detailForFindingPersonJSON["feed"]["entry"]["content"]["src"];
-
-				WWW wwwForPersonName = new WWW(baseURL + findingTheAssigneeURL, null, headers);
-				Debug.Log ("Requesting For Person Name To " + baseURL + findingTheAssigneeURL);
-
-				yield return wwwForPersonName;
-				var processDetailsAndNameJSON =  JSON.Parse(wwwForPersonName.text);
-				var theAsignee = processDetailsAndNameJSON["feed"]["entry"]["link"][0]["title"].Value;
-
-				if (theAsignee == null || theAsignee == "") {
-					theAsignee = "No assigned.";
-
-				}
-
-				Debug.Log (wwwForPersonName.text);
-				// End of finding who is responsible for the process.
-
+	
 				var failureCommentToDisplay = "No comments on this one.";
 
 				// Getting details if the process is failing.
 				if (arrayItem["category"][0]["label"].AsInt == 301) {
 					// Finding why the process is failing.
 					string furtherDetailsURL = detailJSON["feed"]["link"][10]["href"];
+
+					Debug.Log ("Requesting For Comment To " + detailJSON["feed"]["link"][10]["rel"]);
+
 					WWW wwwForComment = new WWW(baseURL + furtherDetailsURL, null, headers);
 
 					Debug.Log ("Requesting For Comment To " + baseURL + furtherDetailsURL);
@@ -157,11 +137,28 @@ public class ProcessDetailInserter : MonoBehaviour {
 				// End of why the process is failing.
 
 
-
+				var theAsignee = "Not assigned.";
 				int counter = 0;
 				int itemAligner = 0;
 				foreach (var stepItem in arrayOfRelatedSteps.Values) {
 					if(stepItem["type"] == "activity") {
+						var assigneeMail = stepItem ["action"] ["service"] ["request"] ["assignedto"] ["P_value"].Value;
+
+
+						WWW wwwForName= new WWW(baseURL + "/config/112761542179152739/user/?first=0&nb=20&orderby=NAME&order=asc&RMPData-Version=v1_0&method=GET&P_rand=11124", null, headers);
+						yield return wwwForName;
+						Debug.Log (wwwForName.text);
+						var nameListJSON =  JSON.Parse(wwwForName.text);
+						var assigneeMails = nameListJSON ["feed"] ["entry"].AsArray;
+
+						foreach(var individualPerson in assigneeMails.Values) {
+							if (individualPerson["author"]["email"] == assigneeMail) {
+								theAsignee = individualPerson["author"]["name"];
+								break;
+							}
+						}
+
+
 						createStep(createdProcess, itemAligner, stepItem["name"].Value, arrayOfStepDetails[counter]["st"], theAsignee,
 							processStepsArray["feed"]["entry"]["process"]["pool"]["lane"]["name"], failureCommentToDisplay);
 						
@@ -170,10 +167,10 @@ public class ProcessDetailInserter : MonoBehaviour {
 					counter++;
 				}
 					
-
+				i++;
 			}
 
-			i++;
+
 
 		}
 	}
