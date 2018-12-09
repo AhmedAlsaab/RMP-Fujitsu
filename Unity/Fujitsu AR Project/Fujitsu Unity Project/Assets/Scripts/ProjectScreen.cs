@@ -9,7 +9,7 @@ using System.Text;
 using SimpleJSON;
 using Vuforia;
 
-public class ProjectScreen : MonoBehaviour, ITrackableEventHandler {
+public class ProjectScreen : MonoBehaviour {
 
     private string baseURL = "https://live.runmyprocess.com/";
     private TrackableBehaviour trackableBehaviour;
@@ -28,11 +28,7 @@ public class ProjectScreen : MonoBehaviour, ITrackableEventHandler {
 	
 	// Use this for initialization
 	void Start () {
-        trackableBehaviour = GetComponent<TrackableBehaviour>();
-        if (trackableBehaviour)
-        {
-            trackableBehaviour.RegisterTrackableEventHandler(this);
-        }
+        
 
 		StartCoroutine(GetText());
 
@@ -76,6 +72,8 @@ public class ProjectScreen : MonoBehaviour, ITrackableEventHandler {
 			i++;
 
 		}
+
+        
 	}
 
     // https://answers.unity.com/questions/52683/how-i-can-call-a-function-once-on-the-update-funct.html
@@ -176,49 +174,12 @@ public class ProjectScreen : MonoBehaviour, ITrackableEventHandler {
 
         processAligner -= 75;
 
+      
         return individualProject;
     }
 
-    // TRACKABLE MANIPULATION CODE SEGMENT
+    
 
-    public void OnTrackableStateChanged(
-        TrackableBehaviour.Status previousStatus,
-        TrackableBehaviour.Status newStatus)
-    {
-        if (newStatus == TrackableBehaviour.Status.DETECTED ||
-            newStatus == TrackableBehaviour.Status.TRACKED  ||
-            newStatus == TrackableBehaviour.Status.EXTENDED_TRACKED)
-        {
-            ShowGUIButton = true;
-            // MarketingCanvas.SetActive(true);
-            // Debug.Log("Canvas set to active");
-        }
-        else if(previousStatus == TrackableBehaviour.Status.TRACKED && newStatus == TrackableBehaviour.Status.NOT_FOUND 
-             || previousStatus == TrackableBehaviour.Status.EXTENDED_TRACKED && newStatus == TrackableBehaviour.Status.NOT_FOUND)
-        {
-            Debug.Log("canvas set to true");
-            ShowGUIButton = true;
-            // MarketingCanvas.SetActive(true);
-
-        }
-        else 
-        {
-            ShowGUIButton = false;
-            // MarketingCanvas.SetActive(false);
-            Debug.Log("canvas set to false");
-
-        }
-       
-    }
-
-    void OnGUI()
-    {
-        if (ShowGUIButton)
-        {
-        
-            GUI.Button(ButtonRect, "Hello");
-            
-        }
-    }
+    
 	
 }

@@ -28,13 +28,14 @@ public class ProjectHealth : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		StartCoroutine(RunThisApi("https://live.runmyprocess.com/live/112761542179152739/request?operator=EE%20EE%20IS&column=name%20status%20events%20published%20updated&value=215357%20ACCEPTANCE%20NULL&filter=PROJECT%20MODE%20PARENT&nb=20&first=0&method=GET&P_rand=77540"));
-        StartCoroutine(RunThisApi("https://live.runmyprocess.com/live/112761542179152739/requestreport/CWL%20Market%20Campaign%20Report.csv?operator=EE%20EE%20IS&column=name%20status%20events%20published%20updated&value=215356%20ACCEPTANCE%20NULL&filter=PROJECT%20MODE%20PARENT&nb=20&first=0&method=GET&P_rand=34765"));
+        
+		 StartCoroutine(RunThisApi("https://live.runmyprocess.com/live/112761542179152739/request?operator=EE%20EE%20IS&column=name%20status%20events%20published%20updated&value=215357%20ACCEPTANCE%20NULL&filter=PROJECT%20MODE%20PARENT&nb=20&first=0&method=GET&P_rand=77540"));
+         StartCoroutine(RunThisApi("https://live.runmyprocess.com/live/112761542179152739/requestreport/CWL%20Market%20Campaign%20Report.csv?operator=EE%20EE%20IS&column=name%20status%20events%20published%20updated&value=215356%20ACCEPTANCE%20NULL&filter=PROJECT%20MODE%20PARENT&nb=20&first=0&method=GET&P_rand=34765"));
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
+        
        
        
 
@@ -130,20 +131,19 @@ public class ProjectHealth : MonoBehaviour {
             TotalStatusCount++;
 
 		}
-        RadialBar.Status102 = Count102;
-        RadialBar.Status201 = Count201;
-        RadialBar.Status301 = Count301;
-        RadialBar.TotalStatusCounter = TotalStatusCount;
+        ProgressBar.Status102 = Count102;
+        ProgressBar.Status201 = Count201;
+        ProgressBar.Status301 = Count301;
+        ProgressBar.TotalStatusCounter = TotalStatusCount;
 
         StatusCounter statusCounter = new StatusCounter(Count102, Count201, Count301, TotalStatusCount, FailingAndPending);
         ApiFilter.counts.Add(statusCounter);
 
         FailingAndPending = (Count301 + Count102);
-        RadialBar.FailingAndPendingStatus = FailingAndPending;
+        ProgressBar.FailingAndPendingStatus = FailingAndPending;
         createStatus(Count102, Count201, Count301, TotalStatusCount);
 
-        int haha = ApiFilter.counts[0].Status102;
-        int haha2 = ApiFilter.counts[1].Status102;
+     
 
         
     }
