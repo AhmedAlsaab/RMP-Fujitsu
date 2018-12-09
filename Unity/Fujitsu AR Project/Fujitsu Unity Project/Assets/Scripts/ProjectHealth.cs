@@ -134,11 +134,17 @@ public class ProjectHealth : MonoBehaviour {
         RadialBar.Status201 = Count201;
         RadialBar.Status301 = Count301;
         RadialBar.TotalStatusCounter = TotalStatusCount;
+
+        StatusCounter statusCounter = new StatusCounter(Count102, Count201, Count301, TotalStatusCount, FailingAndPending);
+        ApiFilter.counts.Add(statusCounter);
+
         FailingAndPending = (Count301 + Count102);
         RadialBar.FailingAndPendingStatus = FailingAndPending;
         createStatus(Count102, Count201, Count301, TotalStatusCount);
-        
-        
+
+        int haha = ApiFilter.counts[0].Status102;
+        int haha2 = ApiFilter.counts[1].Status102;
+
         
     }
 
