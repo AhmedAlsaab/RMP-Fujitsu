@@ -21,8 +21,15 @@ public class ProjectHealth : MonoBehaviour {
     int Count102 = 0;
     int TotalStatusCount = 0;
     int FailingAndPending = 0;
-    
-   
+    [SerializeField] private float currentAmount;
+    [SerializeField] private float speed;
+    public GameObject RadialBarPrefab;
+    public GameObject RadialBarParent;
+    public bool ThisHasBeenCalled = false;
+    public int RadialBarAligner = 0;
+    public GameObject[] RadialBar;
+    private List<int> RadialBarDaTa = new List<int>();
+    int track = 0;
 
    
 
@@ -35,14 +42,65 @@ public class ProjectHealth : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+        
+        
+
+        try
+        {
+
+             // 0 Index = MarketingFairAPI || 1 Index = MarketingCampaignAPI
+           
+            
+            RadialBar = GameObject.FindGameObjectsWithTag("RadialBar");
+
+            if (RadialBarDaTa.Count > 1 && RadialBar.Length > 1)
+            {
+
+
+
+                for (var i = 0; i < RadialBar.Length; i++)
+                {
+                    if (currentAmount < RadialBarDaTa[i])
+                    {
+                        currentAmount += speed * Time.deltaTime;
+                        RadialBar[i].GetComponentsInChildren<Text>()[0].text = ((int)currentAmount).ToString() + "%";
+                        RadialBar[i].GetComponentsInChildren<Text>()[1].gameObject.SetActive(true);
+                        RadialBar[i].GetComponentsInChildren<Image>()[1].fillAmount = currentAmount / 100;
+                        if (currentAmount > RadialBarDaTa[i])
+                        {
+                             Debug.Log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+                            Debug.Log("Finished Radial Progress");
+                            //RadialBar[i].GetComponentsInChildren<Image>()[1].fillAmount = currentAmount / 100;
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        RadialBar[i].GetComponentsInChildren<Text>()[1].text = "Failure Rate";
+                    }
+                   
+
+                }
+            }
+  
+        }
+
+        catch (IndexOutOfRangeException e)
+        {
+            //print error if u want
+        }
         
        
-       
-
        
       
 	}
 
+
+    void ProgressIndicator()
+    {
+      
+    }
 
    
 
@@ -53,24 +111,23 @@ public class ProjectHealth : MonoBehaviour {
     {
         GameObject StatusCodeBox = Instantiate(StatusContainerPrefab);
         StatusCodeBox.transform.SetParent(StatusContainerParent.transform, false);
-
         StatusCodeBox.transform.Translate(0, StatusAligner, 0);
-
         StatusCodeBox.GetComponentsInChildren<Text>()[0].text = ((c201 / total) * 100).ToString().Split('.')[0] + "%";
         StatusCodeBox.GetComponentsInChildren<Text>()[1].text = ((c102 / total) * 100).ToString().Split('.')[0] + "%";
         StatusCodeBox.GetComponentsInChildren<Text>()[2].text = ((c301 / total) * 100).ToString().Split('.')[0] + "%";
-        
-   
-
-
-
-       StatusAligner -= 75;
-
+        StatusAligner -= 75;
         return StatusCodeBox;
+    }
 
+    GameObject SpawningRadialBar(float xCount102, float xCount201, float xCount301, 
+        int xTotalStatusCount, int xFailingAndPending)
+    {
 
-       
-
+        GameObject RadialBar = Instantiate(RadialBarPrefab);
+        RadialBar.transform.SetParent(RadialBarParent.transform, false);
+        RadialBar.transform.Translate(0, RadialBarAligner, 0);
+        RadialBarAligner = -200;
+        return RadialBar;
     }
 
     IEnumerator RunThisApi(string url)
@@ -99,7 +156,7 @@ public class ProjectHealth : MonoBehaviour {
          Count201 = 0;
          Count102 = 0;
          TotalStatusCount = 0;
-
+         // yield return new WaitForSeconds(1);
         
         // Getting the process report.
         foreach (var arrayItem in arrayOfProcessStatus.Values)
@@ -109,12 +166,12 @@ public class ProjectHealth : MonoBehaviour {
             if(arrayItem["category"][0]["label"].AsInt == 201)
             {
                 Count201++;
-                Debug.Log("The count for 201 is " + Count201);
+                
              }
             else if(arrayItem["category"][0]["label"].AsInt == 301)
             {
                 Count301++;
-                Debug.Log("The for 301 is " + Count301);
+                
 
                
             }
@@ -122,12 +179,13 @@ public class ProjectHealth : MonoBehaviour {
             {
                 Count102++;
                
-                Debug.Log("The count for 102 is " + Count102);
+                
                 
 
                
                 
             }
+           
             TotalStatusCount++;
 
 		}
@@ -135,13 +193,18 @@ public class ProjectHealth : MonoBehaviour {
         ProgressBar.Status201 = Count201;
         ProgressBar.Status301 = Count301;
         ProgressBar.TotalStatusCounter = TotalStatusCount;
-
+        FailingAndPending = (Count301 + Count102);
         StatusCounter statusCounter = new StatusCounter(Count102, Count201, Count301, TotalStatusCount, FailingAndPending);
+        RadialBarDaTa.Add(statusCounter.FailureRate);
         ApiFilter.counts.Add(statusCounter);
 
-        FailingAndPending = (Count301 + Count102);
+        
         ProgressBar.FailingAndPendingStatus = FailingAndPending;
         createStatus(Count102, Count201, Count301, TotalStatusCount);
+        SpawningRadialBar(Count102, Count201, Count301, TotalStatusCount, FailingAndPending);
+        
+          
+        
 
      
 

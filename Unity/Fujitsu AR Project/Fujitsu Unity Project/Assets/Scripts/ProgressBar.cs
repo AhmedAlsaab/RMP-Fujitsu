@@ -46,7 +46,7 @@ public class ProgressBar : MonoBehaviour {
        //     TextLoading.GetComponent<Text>().text = "Failure Rate";
            
        // }
-        Debug.Log("CHCKIIIIIIIIIIIIIIIIIIIIIIIIII " + ApiFilter.counts[0].Status102);
+        Debug.Log("CHCKIIIIIIIIIIIIIIIIIIIIIIIIII " + ApiFilter.counts[0].FailingAndPendingCounter * 100 / ApiFilter.counts[0].TotalStatusCounter);
        // LoadingBar.GetComponent<Image>().fillAmount = currentAmount / 100;
 
          try
@@ -80,8 +80,8 @@ public class ProgressBar : MonoBehaviour {
         RadialBarAligner = -75;
         
 
-        int pendinghealth = FailingAndPendingStatus * 100 / TotalStatusCounter;
-        if(currentAmount < pendinghealth)
+        int HealthForCampaign = ApiFilter.counts[1].FailingAndPendingCounter * 100 / ApiFilter.counts[1].TotalStatusCounter;
+        if(currentAmount < HealthForCampaign)
         {
             currentAmount += speed * Time.deltaTime;
             RadialBar.GetComponentsInChildren<Text>()[0].text = ((int)currentAmount).ToString() + "%";

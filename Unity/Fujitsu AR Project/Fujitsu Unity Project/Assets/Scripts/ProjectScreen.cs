@@ -87,8 +87,10 @@ public class ProjectScreen : MonoBehaviour {
 
             if (ProjectButtonArray.Length >= 1) //size u want
             {
+                
                 if (BtnAssignerCalled == false)
                 {
+                    
                     ProjectBtnAssigner();
                 }
             }

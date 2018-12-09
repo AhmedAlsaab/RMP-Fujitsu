@@ -11,6 +11,10 @@ TagManager:
   - FairList
   - IntroScreen
   - BackToProjects
+  - Process Detail
+  - Step
+  - Process
+  - RadialBar
   layers:
   - Default
   - TransparentFX
