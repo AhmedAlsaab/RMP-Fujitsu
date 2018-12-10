@@ -41,7 +41,7 @@ public class ProgressBar : MonoBehaviour {
         int PendingStatusCounterTotal = ApiFilter.counts[0].TotalStatusCounter + ApiFilter.counts[1].TotalStatusCounter;
         int PendingTotal = PendingStatusForAllApiLinks * 100 / PendingStatusCounterTotal;
 
-        Debug.Log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ " + PendingTotal);
+       
 
         if(PendingCurrentAmount < PendingTotal)
         {
