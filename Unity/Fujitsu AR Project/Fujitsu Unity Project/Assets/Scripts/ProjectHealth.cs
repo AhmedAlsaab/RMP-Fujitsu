@@ -69,7 +69,7 @@ public class ProjectHealth : MonoBehaviour {
                         RadialBar[i].GetComponentsInChildren<Image>()[1].fillAmount = currentAmount / 100;
                         if (currentAmount > RadialBarDaTa[i])
                         {
-                             Debug.Log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+                             
                             Debug.Log("Finished Radial Progress");
                             //RadialBar[i].GetComponentsInChildren<Image>()[1].fillAmount = currentAmount / 100;
                             continue;
@@ -125,8 +125,8 @@ public class ProjectHealth : MonoBehaviour {
 
         GameObject RadialBar = Instantiate(RadialBarPrefab);
         RadialBar.transform.SetParent(RadialBarParent.transform, false);
-        RadialBar.transform.Translate(0, RadialBarAligner, 0);
-        RadialBarAligner = -200;
+        RadialBar.transform.Translate(RadialBarAligner, 0, 0);
+        RadialBarAligner = 350;
         return RadialBar;
     }
 

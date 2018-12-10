@@ -14,93 +14,79 @@ public class ProgressBar : MonoBehaviour {
     public static int Status301;
     public static int TotalStatusCounter;
     public static int FailingAndPendingStatus;
-    [SerializeField] private float currentAmount;
-    [SerializeField] private float speed;
-   // public Transform TextIndicator;
-   // public Transform TextLoading;
-   // public Transform LoadingBar;
-    public GameObject RadialBarPrefab;
-    public GameObject RadialBarParent;
-    public bool ThisHasBeenCalled = false;
-    public int RadialBarAligner = 0;
+    [SerializeField] private float PendingCurrentAmount;
+    [SerializeField] private float PendingSpeed;
+    public Transform PendingTextIndicator;
+    public Transform PendingLoadingBar;
+    [SerializeField] private float SuccessCurrentAmount;
+    [SerializeField] private float SuccessSpeed;
+    public Transform SuccessTextIndicator;
+    public Transform SuccessLoadingBar;
+    [SerializeField] private float FailingCurrentAmount;
+    [SerializeField] private float FailingSpeed;
+    public Transform FailingTextIndicator;
+    public Transform FailingLoadingBar;
+   
+   
 
 	// Use this for initialization
 	void Start () {
-        SpawningRadialBar();
+       
 	}
 	
 	// Update is called once per frame
 	void Update () {
-       
-       
-       //int pendinghealth = FailingAndPendingStatus * 100 / TotalStatusCounter;
-       // if(currentAmount < pendinghealth)
-       // {
-       //    currentAmount += speed * Time.deltaTime;
-       //    TextIndicator.GetComponent<Text>().text = ((int)currentAmount).ToString() + "%";
-       //    TextLoading.gameObject.SetActive(true);
-             
-       //}
-       // else
-       //{
-       //     TextLoading.GetComponent<Text>().text = "Failure Rate";
+
+        int PendingStatusForAllApiLinks = ApiFilter.counts[0].Status102 + ApiFilter.counts[1].Status102;
+        int PendingStatusCounterTotal = ApiFilter.counts[0].TotalStatusCounter + ApiFilter.counts[1].TotalStatusCounter;
+        int PendingTotal = PendingStatusForAllApiLinks * 100 / PendingStatusCounterTotal;
+
+        Debug.Log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ " + PendingTotal);
+
+        if(PendingCurrentAmount < PendingTotal)
+        {
+            PendingCurrentAmount += PendingSpeed * Time.deltaTime;
+            PendingTextIndicator.GetComponent<Text>().text = ((int)PendingCurrentAmount).ToString() + "%";
+        }
+        else
+        {
            
-       // }
-        Debug.Log("CHCKIIIIIIIIIIIIIIIIIIIIIIIIII " + ApiFilter.counts[0].FailingAndPendingCounter * 100 / ApiFilter.counts[0].TotalStatusCounter);
-       // LoadingBar.GetComponent<Image>().fillAmount = currentAmount / 100;
-
-         try
-        {
-            
-
-            
-                  if (ThisHasBeenCalled == false)
-                {
-                    SpawningRadialBar();
-                }
-            
         }
-        catch (IndexOutOfRangeException e)
+        PendingLoadingBar.GetComponent<Image>().fillAmount = PendingCurrentAmount / 100;
+       
+        int SuccessStatusForAllApiLinks = ApiFilter.counts[0].Status201 + ApiFilter.counts[1].Status201;
+        int SuccessStatusCounterTotal = ApiFilter.counts[0].TotalStatusCounter + ApiFilter.counts[1].TotalStatusCounter;
+        int SuccessTotal = SuccessStatusForAllApiLinks * 100 / SuccessStatusCounterTotal;
+       
+         if(SuccessCurrentAmount < SuccessTotal)
         {
-            //print error if u want
+            SuccessCurrentAmount += SuccessSpeed * Time.deltaTime;
+            SuccessTextIndicator.GetComponent<Text>().text = ((int)SuccessCurrentAmount).ToString() + "%";
         }
-        SpawningRadialBar();
+        else
+        {
+           
+        }
+        SuccessLoadingBar.GetComponent<Image>().fillAmount = SuccessCurrentAmount / 100;
+
+        int FailingStatusForAllApiLinks = ApiFilter.counts[0].Status301 + ApiFilter.counts[1].Status301;
+        int FailingStatusCounterTotal = ApiFilter.counts[0].TotalStatusCounter + ApiFilter.counts[1].TotalStatusCounter;
+        int FailingTotal = FailingStatusForAllApiLinks * 100 / FailingStatusCounterTotal;
+
+         if(FailingCurrentAmount < FailingTotal)
+        {
+            FailingCurrentAmount += FailingSpeed * Time.deltaTime;
+            FailingTextIndicator.GetComponent<Text>().text = ((int)FailingCurrentAmount).ToString() + "%";
+        }
+        else
+        {
+           
+        }
+        FailingLoadingBar.GetComponent<Image>().fillAmount = FailingCurrentAmount / 100;
        
 	}
 
 
-    GameObject SpawningRadialBar()
-    {
-        
-        GameObject RadialBar = Instantiate(RadialBarPrefab);
-        RadialBar.transform.SetParent(RadialBarParent.transform, false);
-        RadialBar.transform.Translate(0, RadialBarAligner, 0);
-     //   RadialBar.GetComponentsInChildren<Text>()[0].text = ApiFilter.counts[0].Status102.ToString();
-     //   RadialBar.GetComponentsInChildren<Text>()[1].text = ApiFilter.counts[1].FailingAndPendingCounter.ToString();
-        RadialBarAligner = -75;
-        
-
-        int HealthForCampaign = ApiFilter.counts[1].FailingAndPendingCounter * 100 / ApiFilter.counts[1].TotalStatusCounter;
-        if(currentAmount < HealthForCampaign)
-        {
-            currentAmount += speed * Time.deltaTime;
-            RadialBar.GetComponentsInChildren<Text>()[0].text = ((int)currentAmount).ToString() + "%";
-            RadialBar.GetComponentsInChildren<Text>()[1].gameObject.SetActive(true);
-
-            
-        }
-        else
-        {
-            RadialBar.GetComponentsInChildren<Text>()[1].text = "Failure Rate";
-        }
-       
-    
-         RadialBar.GetComponentsInChildren<Image>()[1].fillAmount = currentAmount / 100;
-
-        ThisHasBeenCalled = true;
-        return RadialBar;
-
-
-    }
+   
 
 }

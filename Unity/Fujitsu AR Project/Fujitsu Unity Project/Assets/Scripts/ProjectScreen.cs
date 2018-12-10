@@ -20,7 +20,7 @@ public class ProjectScreen : MonoBehaviour {
     private int projectLimit = 5;
     public GameObject projectPrefab;
     public GameObject projectParent;
-    private int processAligner = 0;
+    private int projectAligner = 0;
     private Dictionary<GameObject, bool> check = new Dictionary<GameObject, bool>();
     private bool BtnAssignerCalled = false;
     
@@ -170,11 +170,11 @@ public class ProjectScreen : MonoBehaviour {
         GameObject individualProject = Instantiate(projectPrefab);
         individualProject.transform.SetParent(projectParent.transform, false);
 
-        individualProject.transform.Translate(0, processAligner, 0);
+        individualProject.transform.Translate(projectAligner, 0,  0 );
 
         individualProject.GetComponentsInChildren<Text>()[0].text = projectTitle;
 
-        processAligner -= 75;
+        projectAligner = 300;
 
       
         return individualProject;
