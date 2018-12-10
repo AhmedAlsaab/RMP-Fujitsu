@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 114771110422918616}
   m_Layer: 5
   m_Name: ProjectButton
-  m_TagString: ProjectButton
+  m_TagString: ProjectBtn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -75,7 +75,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.259, g: 0.70401627, b: 1, a: 0.734}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.759}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

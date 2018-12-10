@@ -15,6 +15,7 @@ TagManager:
   - Step
   - Process
   - RadialBar
+  - ProjectBtn
   layers:
   - Default
   - TransparentFX
