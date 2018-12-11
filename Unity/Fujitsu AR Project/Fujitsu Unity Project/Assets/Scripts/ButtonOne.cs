@@ -9,7 +9,6 @@ using System;
 using System.Text;
 using SimpleJSON;
 using Vuforia;
-using DG.Tweening;
 
 public class ButtonOne : MonoBehaviour
 {

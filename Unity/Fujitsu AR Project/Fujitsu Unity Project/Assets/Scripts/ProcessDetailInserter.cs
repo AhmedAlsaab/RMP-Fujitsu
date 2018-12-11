@@ -29,13 +29,13 @@ public class ProcessDetailInserter : MonoBehaviour {
 	private int processAligner = 0;
 	public GameObject processPrefab;
 	public GameObject processParent;
-    public int newSingleProcessAligner = 0;
+    private int newSingleProcessAligner = 0;
 	private int processLimit = 5;
     public RectTransform CampaignMenu;
 
 	public GameObject stepsHolderPrefab;
 
-
+	private int startPoint;
 	// Use this for initialization
 	void Start () {
 		StartCoroutine(HandleJSON());
@@ -60,6 +60,7 @@ public class ProcessDetailInserter : MonoBehaviour {
 		var username = "cristiano.bellucci.fujitsu+cardiffadmin@gmail.com";
 		var password = "Millennium";
 
+		startPoint = Convert.ToInt32(File.ReadAllText("Assets/Scripts/processPage.txt"));
 
 		var credentials = Convert.ToBase64String (Encoding.ASCII.GetBytes (username + ":" + password)); // FROM TEAM 7
 		WWWForm form = new WWWForm();  // FROM TEAM 7
@@ -67,7 +68,7 @@ public class ProcessDetailInserter : MonoBehaviour {
 		headers ["Authorization"] = "Basic " + credentials;  // FROM TEAM 7
 		headers ["Accept"] = "application/json";
 
-		WWW www = new WWW("https://live.runmyprocess.com/live/112761542179152739/requestreport/CWL%20Market%20Campaign%20Report.csv?operator=EE%20EE%20IS&column=name%20status%20events%20published%20updated&value=215356%20ACCEPTANCE%20NULL&filter=PROJECT%20MODE%20PARENT&nb=20&first=0&method=GET&P_rand=34765", null, headers);
+		WWW www = new WWW("https://live.runmyprocess.com/live/112761542179152739/requestreport/CWL%20Market%20Campaign%20Report.csv?operator=EE%20EE%20IS&column=name%20status%20events%20published%20updated&value=215356%20ACCEPTANCE%20NULL&filter=PROJECT%20MODE%20PARENT&nb=20&first=" + startPoint + "&method=GET&P_rand=34765", null, headers);
 
 		yield return www;
 
@@ -235,7 +236,6 @@ public class ProcessDetailInserter : MonoBehaviour {
             // processStepHolder.GetComponentInChildren<RectTransform>().DOAnchorPos(new Vector2(0, 6000), 035f);
             processStepHolder.GetComponentInChildren<RectTransform>().DOAnchorPos(new Vector2(0, 6000), 035f);
             CampaignMenu.DOAnchorPos(new Vector2(0, 0), 0.35f);
-            Debug.Log("@@@@@@@@@@@@!!!!!!!!!!!!!!!!!!!!!!!!");
         });
 
 		
@@ -280,6 +280,28 @@ public class ProcessDetailInserter : MonoBehaviour {
 
 		return colorCode;
 	} 
+
+	public void linkIsReset() {
+		// Making sure function is triggered.
+		Debug.Log("Link is changed." + startPoint);
+
+		// Getting all the processes.
+		GameObject[] listOfProcesses = GameObject.FindGameObjectsWithTag ("Process");  
+
+		// Destroying all the processes so that new ones can be created.
+		foreach (GameObject process in listOfProcesses) { 
+			Destroy(process);
+
+		}
+
+		// Reseting the creation position so the new generation looks consistent.
+		newSingleProcessAligner = 0; 
+
+		// Fetching all the new information coming from the new link.
+		StartCoroutine(HandleJSON()); 
+
+
+	}
 	// End of referenced code.
 
 }
