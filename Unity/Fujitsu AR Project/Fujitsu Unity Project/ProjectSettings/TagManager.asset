@@ -16,6 +16,8 @@ TagManager:
   - Process
   - RadialBar
   - ProjectBtn
+  - GeneralDetailsBackBtn
+  - Back
   layers:
   - Default
   - TransparentFX

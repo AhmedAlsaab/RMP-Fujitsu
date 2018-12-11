@@ -24,6 +24,7 @@ public class UIManager : MonoBehaviour {
     private bool ProcessAssignerCalled = false;
     private bool ProcessDetailsBackAssignerCalled = false;
     public RectTransform ProcessDetailsPrefab;
+    public RectTransform StepPrefab;
 
 
 
@@ -53,28 +54,11 @@ public class UIManager : MonoBehaviour {
             //print error if u want
         }
 
-         try
-        {
-            ProjectItemArray = GameObject.FindGameObjectsWithTag("Process");
-
-            if (ProjectItemArray.Length > 4) //size u want
-            {
-                
-                if (ProcessAssignerCalled == false)
-                {
-                    
-                    ProcessBtnAssigner();
-                }
-            }
-        }
-        catch (IndexOutOfRangeException e)
-        {
-            //print error if u want
-        }
+         
 
         try
         {
-            ProcessDetailsBackBtnArray = GameObject.FindGameObjectsWithTag("ProcessDetail");
+            ProcessDetailsBackBtnArray = GameObject.FindGameObjectsWithTag("Back");
 
             if (ProcessDetailsBackBtnArray.Length > 4) //size u want
             {
@@ -82,7 +66,7 @@ public class UIManager : MonoBehaviour {
                 if (ProcessDetailsBackAssignerCalled == false)
                 {
                     
-                    ProcessDetailsGeneralBackBtn();
+                    // ProcessDetailsGeneralBackBtn();
                 }
             }
         }
@@ -90,32 +74,34 @@ public class UIManager : MonoBehaviour {
         {
             //print error if u want
         }
+
+        
+      
     }
 
 
 
 
-
+    // BACK BUTTON 
     void ProcessDetailsGeneralBackBtn()
     {
         foreach (GameObject game in ProcessDetailsBackBtnArray)
         {
-           
-            game.GetComponentsInChildren<Button>()[0].onClick.AddListener(HideProcessDetailsGeneral);
+
+            game.GetComponentsInChildren<Button>()[0].onClick.AddListener(Testing);
+            ProcessDetailsBackAssignerCalled = true;
+
+
+
         }
-        ProcessDetailsBackAssignerCalled = true;
     }
 
-    void ProcessBtnAssigner()
+    void Testing()
     {
-        foreach (GameObject game in ProjectItemArray)
-        {
-            game.GetComponentsInChildren<Button>()[0].onClick.AddListener(ShowProcessDetailsGeneral);
-            
-        }
-        ProcessAssignerCalled = true;
+        Debug.Log("@@@@@@@@@@@@@@@@@@@@@@");
     }
-
+    
+    // ASSIGNING ONCLICK METHODS FOR INDICATED INDEX ONTO BUTTON FOUND IN THE ARRAY
     void ProjectBtnAssigner()
     {
 
@@ -124,7 +110,7 @@ public class UIManager : MonoBehaviour {
            BtnAssignerCalled = true;
     }
 
-    // Update is called once per frame
+    
     public void ShowCampaignListButton()
     {
         MainMenu.DOAnchorPos(new Vector2(-5000, 0), 0.35f);
@@ -147,9 +133,8 @@ public class UIManager : MonoBehaviour {
     public void ShowProcessDetailsGeneral()
     {
 
-        ProcessDetailsPrefab.DOAnchorPos(new Vector2(0, -2000), 0.35f);
-        Debug.Log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-
+        ProcessDetailsPrefab.DOAnchorPos(new Vector2(0, -2700), 0.35f);
+       
 
     }
 
@@ -157,7 +142,7 @@ public class UIManager : MonoBehaviour {
     {
 
         ProcessDetailsPrefab.DOAnchorPos(new Vector2(0, 0), 0.35f);
-        Debug.Log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        
 
 
     }

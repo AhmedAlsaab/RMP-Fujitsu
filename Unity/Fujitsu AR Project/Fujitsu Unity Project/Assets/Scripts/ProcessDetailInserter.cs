@@ -7,6 +7,8 @@ using System.IO;
 using System;
 using System.Text;
 using SimpleJSON;
+using UnityEngine.EventSystems;
+using DG.Tweening;
 
 // All script is based on my (c1645238) experimental work on another repository.
 // https://gitlab.cs.cf.ac.uk/c1645238/personal-ar-experiment/blob/master/Assets/Scripts/Spawner.cs
@@ -29,6 +31,7 @@ public class ProcessDetailInserter : MonoBehaviour {
 	public GameObject processParent;
     public int newSingleProcessAligner = 0;
 	private int processLimit = 5;
+    public RectTransform CampaignMenu;
 
 	public GameObject stepsHolderPrefab;
 
@@ -162,7 +165,7 @@ public class ProcessDetailInserter : MonoBehaviour {
 						createStep(createdProcess, itemAligner, stepItem["name"].Value, arrayOfStepDetails[counter]["st"], theAsignee,
 							processStepsArray["feed"]["entry"]["process"]["pool"]["lane"]["name"], failureCommentToDisplay);
 						
-						itemAligner -= 250;
+						itemAligner -= 300;
 					}
 					counter++;
 				}
@@ -213,11 +216,29 @@ public class ProcessDetailInserter : MonoBehaviour {
 	public GameObject createProcess(GameObject processParentIn, string processTitle, int status) {
 		GameObject individualProcess = Instantiate(processPrefab);
 		individualProcess.transform.SetParent(processParentIn.transform, false);
-
 		individualProcess.transform.Translate(newSingleProcessAligner, 0,  0);
+       
 
-		GameObject processStepHolder = Instantiate(stepsHolderPrefab);
+        GameObject processStepHolder = Instantiate(stepsHolderPrefab);
 		processStepHolder.transform.SetParent(individualProcess.transform, false);
+       
+        // Open 
+        individualProcess.GetComponentsInChildren<Button>()[0].onClick.AddListener(() =>
+        {
+          processStepHolder.GetComponentInChildren<RectTransform>().DOAnchorPos(new Vector2(-400, 2000), 0.35f);
+          CampaignMenu.DOAnchorPos(new Vector2(0, -2000), 0.35f);
+        });
+
+        // Close
+        individualProcess.GetComponentsInChildren<Button>()[1].onClick.AddListener(() =>
+        {
+            // processStepHolder.GetComponentInChildren<RectTransform>().DOAnchorPos(new Vector2(0, 6000), 035f);
+            processStepHolder.GetComponentInChildren<RectTransform>().DOAnchorPos(new Vector2(0, 6000), 035f);
+            CampaignMenu.DOAnchorPos(new Vector2(0, 0), 0.35f);
+            Debug.Log("@@@@@@@@@@@@!!!!!!!!!!!!!!!!!!!!!!!!");
+        });
+
+		
 
 		// REF: DOCUMENTATION: https://docs.unity3d.com/ScriptReference/Transform.GetChild.html
 		// CONVERTING TO POSITIVE https://stackoverflow.com/questions/1348080/convert-a-positive-number-to-negative-in-c-sharp
@@ -225,7 +246,7 @@ public class ProcessDetailInserter : MonoBehaviour {
 		individualProcess.transform.GetChild(2).Translate((newSingleProcessAligner * -1), 0,  0);
 
 
-		processAligner -= 75;
+		//processAligner -= 75;
         newSingleProcessAligner -= 250;
 
 		individualProcess.GetComponentsInChildren<Text>()[0].text = processTitle;
@@ -262,3 +283,4 @@ public class ProcessDetailInserter : MonoBehaviour {
 	// End of referenced code.
 
 }
+
