@@ -27,7 +27,7 @@ public class ProcessDetailInserter : MonoBehaviour {
 	private int processAligner = 0;
 	public GameObject processPrefab;
 	public GameObject processParent;
-
+    public int newSingleProcessAligner = 0;
 	private int processLimit = 5;
 
 	public GameObject stepsHolderPrefab;
@@ -162,7 +162,7 @@ public class ProcessDetailInserter : MonoBehaviour {
 						createStep(createdProcess, itemAligner, stepItem["name"].Value, arrayOfStepDetails[counter]["st"], theAsignee,
 							processStepsArray["feed"]["entry"]["process"]["pool"]["lane"]["name"], failureCommentToDisplay);
 						
-						itemAligner -= 75;
+						itemAligner -= 250;
 					}
 					counter++;
 				}
@@ -194,9 +194,9 @@ public class ProcessDetailInserter : MonoBehaviour {
 		GameObject item = Instantiate(stepPrefab);
 		item.transform.SetParent(parent.transform.GetChild(2), false);
 
-		item.transform.Translate(0, position, 0);
+		item.transform.Translate(position, 0,   0);
 		item.transform.GetChild(1).Translate(0, (position * -1), 0);
-
+        //item.transform.GetChild(1).Translate((position * -1),0,  0);
 		// Setting color of the Step
 		item.GetComponent<Image>().color = identifyStatus(status);
 
@@ -214,7 +214,7 @@ public class ProcessDetailInserter : MonoBehaviour {
 		GameObject individualProcess = Instantiate(processPrefab);
 		individualProcess.transform.SetParent(processParentIn.transform, false);
 
-		individualProcess.transform.Translate(0, processAligner, 0);
+		individualProcess.transform.Translate(newSingleProcessAligner, 0,  0);
 
 		GameObject processStepHolder = Instantiate(stepsHolderPrefab);
 		processStepHolder.transform.SetParent(individualProcess.transform, false);
@@ -222,16 +222,16 @@ public class ProcessDetailInserter : MonoBehaviour {
 		// REF: DOCUMENTATION: https://docs.unity3d.com/ScriptReference/Transform.GetChild.html
 		// CONVERTING TO POSITIVE https://stackoverflow.com/questions/1348080/convert-a-positive-number-to-negative-in-c-sharp
 		// BY Shimmy at Jan 24 '12 at 23:13 ACCESSED ON 28/11/2018
-		individualProcess.transform.GetChild(2).Translate(0, (processAligner * -1), 0);
+		individualProcess.transform.GetChild(2).Translate((newSingleProcessAligner * -1), 0,  0);
 
 
 		processAligner -= 75;
-
+        newSingleProcessAligner -= 250;
 
 		individualProcess.GetComponentsInChildren<Text>()[0].text = processTitle;
 
 		// Setting colors of Process Health Display.
-		individualProcess.GetComponentsInChildren<Image>()[1].color = identifyStatus(status);
+		individualProcess.GetComponentsInChildren<Image>()[0].color = identifyStatus(status);
 		individualProcess.GetComponentsInChildren<Image>()[3].color = identifyStatus(status);
 
 		return processStepHolder;
@@ -248,7 +248,7 @@ public class ProcessDetailInserter : MonoBehaviour {
 		// Failed colour
 		} else if (status == 301) {
 			
-			colorCode = new Color32 (201, 47, 0, 255);
+			colorCode = new Color32 (249, 95, 103, 255);
 
 
 		// Pending colour

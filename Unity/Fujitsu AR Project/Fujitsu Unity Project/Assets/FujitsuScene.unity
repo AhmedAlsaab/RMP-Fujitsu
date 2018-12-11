@@ -1531,6 +1531,9 @@ MonoBehaviour:
   CampaignMenu: {fileID: 1807117684}
   FairMenu: {fileID: 257206804}
   ProjectButtonArray: []
+  ProjectItemArray:
+  - {fileID: 0}
+  ProcessDetailsPrefab: {fileID: 1807117684}
 --- !u!1 &593123561
 GameObject:
   m_ObjectHideFlags: 0
@@ -2475,6 +2478,7 @@ MonoBehaviour:
   processPrefab: {fileID: 1056507240926720, guid: 76ecf85f424926b40b270a7275c4bf34,
     type: 2}
   processParent: {fileID: 1014922906}
+  newSingleProcessAligner: 0
   stepsHolderPrefab: {fileID: 1939748967169672, guid: 67ecf861cd231e2458268bce9e340751,
     type: 2}
 --- !u!1 &1050834090
@@ -3740,8 +3744,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 5386.7, y: 0.000019073}
-  m_SizeDelta: {x: -864.67, y: -142}
+  m_AnchoredPosition: {x: 5037, y: -42}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1807117685
 MonoBehaviour:
@@ -3755,10 +3759,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stepPrefab: {fileID: 1297361625166868, guid: a3635aab3d144874d914b7cd2fec035c, type: 2}
-  processPrefab: {fileID: 1056507240926720, guid: 76ecf85f424926b40b270a7275c4bf34,
+  processPrefab: {fileID: 1179362907021760, guid: 76ecf85f424926b40b270a7275c4bf34,
     type: 2}
   processParent: {fileID: 1807117683}
-  stepsHolderPrefab: {fileID: 1939748967169672, guid: 67ecf861cd231e2458268bce9e340751,
+  newSingleProcessAligner: 0
+  stepsHolderPrefab: {fileID: 1760162474262020, guid: 67ecf861cd231e2458268bce9e340751,
     type: 2}
 --- !u!114 &1807117686
 MonoBehaviour:
