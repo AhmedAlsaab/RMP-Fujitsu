@@ -32,6 +32,10 @@ public class ProcessDetailInserter : MonoBehaviour {
     private int newSingleProcessAligner = 0;
 	private int processLimit = 5;
     public RectTransform CampaignMenu;
+    public int AnimationAligner = 0;
+    public GameObject FlexContainer;
+    private bool fuckyoubitch;
+    
 
 	public GameObject stepsHolderPrefab;
 
@@ -217,43 +221,72 @@ public class ProcessDetailInserter : MonoBehaviour {
 	public GameObject createProcess(GameObject processParentIn, string processTitle, int status) {
 		GameObject individualProcess = Instantiate(processPrefab);
 		individualProcess.transform.SetParent(processParentIn.transform, false);
+
+        // HOW THEY SPAWN
 		individualProcess.transform.Translate(newSingleProcessAligner, 0,  0);
        
 
         GameObject processStepHolder = Instantiate(stepsHolderPrefab);
-		processStepHolder.transform.SetParent(individualProcess.transform, false);
-       
+	
+        processStepHolder.transform.SetParent(individualProcess.transform, false);
+        individualProcess.transform.GetChild(2).Translate((newSingleProcessAligner * -1), 0,  0);
+        var processDetailsgeneral = individualProcess.transform.GetChild(2);
+        newSingleProcessAligner -= 250;
+        AnimationAligner -= 5000;
+
+        
         // Open 
         individualProcess.GetComponentsInChildren<Button>()[0].onClick.AddListener(() =>
         {
-          processStepHolder.GetComponentInChildren<RectTransform>().DOAnchorPos(new Vector2(-400, 2000), 0.35f);
-          CampaignMenu.DOAnchorPos(new Vector2(0, -2000), 0.35f);
+            Vector3 NewPosition = new Vector3(0, 1200, 2000);
+
+            if (!fuckyoubitch)
+            {
+              processStepHolder.transform.position = NewPosition;
+                CampaignMenu.DOAnchorPos(new Vector2(0, -2000), 0.35f);
+                fuckyoubitch = true;
+            } 
+           
+  
+
+            Debug.Log("6666666666666666666666666666666666");
+          
         });
 
         // Close
         individualProcess.GetComponentsInChildren<Button>()[1].onClick.AddListener(() =>
         {
-            // processStepHolder.GetComponentInChildren<RectTransform>().DOAnchorPos(new Vector2(0, 6000), 035f);
-            processStepHolder.GetComponentInChildren<RectTransform>().DOAnchorPos(new Vector2(0, 6000), 035f);
-            CampaignMenu.DOAnchorPos(new Vector2(0, 0), 0.35f);
+
+            if (fuckyoubitch)
+            {
+                  processStepHolder.GetComponentInChildren<RectTransform>().DOAnchorPos(new Vector2(0, 6000), 0.35f);
+                CampaignMenu.DOAnchorPos(new Vector2(0, 0), 0.35f);
+                fuckyoubitch = false;
+            }
+             //processStepHolder.transform.Translate(5000, 0, 0);
+           
+            Debug.Log("55555555555555555555555555555555555555555");
+           
         });
+
+
 
 		
 
 		// REF: DOCUMENTATION: https://docs.unity3d.com/ScriptReference/Transform.GetChild.html
 		// CONVERTING TO POSITIVE https://stackoverflow.com/questions/1348080/convert-a-positive-number-to-negative-in-c-sharp
 		// BY Shimmy at Jan 24 '12 at 23:13 ACCESSED ON 28/11/2018
-		individualProcess.transform.GetChild(2).Translate((newSingleProcessAligner * -1), 0,  0);
-
+		
+        //individualProcess.transform.GetChild(2).Translate(newSingleProcessAligner, 0,  0);
 
 		//processAligner -= 75;
-        newSingleProcessAligner -= 250;
+        
 
 		individualProcess.GetComponentsInChildren<Text>()[0].text = processTitle;
 
 		// Setting colors of Process Health Display.
 		individualProcess.GetComponentsInChildren<Image>()[0].color = identifyStatus(status);
-		individualProcess.GetComponentsInChildren<Image>()[3].color = identifyStatus(status);
+		//individualProcess.GetComponentsInChildren<Image>()[3].color = identifyStatus(status);
 
 		return processStepHolder;
 	} 
@@ -302,7 +335,7 @@ public class ProcessDetailInserter : MonoBehaviour {
 
 
 	}
-	// End of referenced code.
+
 
 }
 

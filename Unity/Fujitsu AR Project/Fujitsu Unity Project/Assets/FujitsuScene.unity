@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -4342,7 +4342,7 @@ MonoBehaviour:
   processPrefab: {fileID: 1055528056790398, guid: 76ecf85f424926b40b270a7275c4bf34,
     type: 2}
   processParent: {fileID: 1807117683}
-  CampaignMenu: {fileID: 1807117684}
+  CampaignMenu: {fileID: 1807117683}
   stepsHolderPrefab: {fileID: 1169470454357764, guid: 67ecf861cd231e2458268bce9e340751,
     type: 2}
 --- !u!114 &1807117686

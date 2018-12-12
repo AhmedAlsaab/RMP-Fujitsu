@@ -56,25 +56,7 @@ public class UIManager : MonoBehaviour {
 
          
 
-        try
-        {
-            ProcessDetailsBackBtnArray = GameObject.FindGameObjectsWithTag("Back");
-
-            if (ProcessDetailsBackBtnArray.Length > 4) //size u want
-            {
-                
-                if (ProcessDetailsBackAssignerCalled == false)
-                {
-                    
-                    // ProcessDetailsGeneralBackBtn();
-                }
-            }
-        }
-        catch (IndexOutOfRangeException e)
-        {
-            //print error if u want
-        }
-
+      
         
       
     }
@@ -83,23 +65,9 @@ public class UIManager : MonoBehaviour {
 
 
     // BACK BUTTON 
-    void ProcessDetailsGeneralBackBtn()
-    {
-        foreach (GameObject game in ProcessDetailsBackBtnArray)
-        {
+ 
 
-            game.GetComponentsInChildren<Button>()[0].onClick.AddListener(Testing);
-            ProcessDetailsBackAssignerCalled = true;
-
-
-
-        }
-    }
-
-    void Testing()
-    {
-        Debug.Log("@@@@@@@@@@@@@@@@@@@@@@");
-    }
+   
     
     // ASSIGNING ONCLICK METHODS FOR INDICATED INDEX ONTO BUTTON FOUND IN THE ARRAY
     void ProjectBtnAssigner()
@@ -108,6 +76,7 @@ public class UIManager : MonoBehaviour {
            ProjectButtonArray[0].GetComponentsInChildren<Button>()[0].onClick.AddListener(ShowCampaignListButton);
            ProjectButtonArray[1].GetComponentsInChildren<Button>()[0].onClick.AddListener(ShowFairListButton);
            BtnAssignerCalled = true;
+        Debug.Log("111111111111111111111111111111");
     }
 
     
@@ -115,12 +84,14 @@ public class UIManager : MonoBehaviour {
     {
         MainMenu.DOAnchorPos(new Vector2(-5000, 0), 0.35f);
         CampaignMenu.DOAnchorPos(new Vector2(0, 0), 0.35f);
+        Debug.Log("2222222222222222222222");
     }
 
      public void ShowFairListButton()
     {
         MainMenu.DOAnchorPos(new Vector2(-5000, 0), 0.35f);
         FairMenu.DOAnchorPos(new Vector2(0, 0), 0.35f);
+        Debug.Log("333333333333333333333333333");
     }
 
     public void HideCampaignProcess()
@@ -128,22 +99,8 @@ public class UIManager : MonoBehaviour {
         MainMenu.DOAnchorPos(new Vector2(0, 0), 0.35f);
         CampaignMenu.DOAnchorPos(new Vector2(5000, 0), 0.35f);
         FairMenu.DOAnchorPos(new Vector2(5000, 0), 0.35f);
+        Debug.Log("4444444444444444444444444444444444444");
     }
 
-    public void ShowProcessDetailsGeneral()
-    {
-
-        ProcessDetailsPrefab.DOAnchorPos(new Vector2(0, -2700), 0.35f);
-       
-
-    }
-
-    public void HideProcessDetailsGeneral()
-    {
-
-        ProcessDetailsPrefab.DOAnchorPos(new Vector2(0, 0), 0.35f);
-        
-
-
-    }
+   
 }

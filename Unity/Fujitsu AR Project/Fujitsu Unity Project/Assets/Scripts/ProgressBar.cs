@@ -36,22 +36,26 @@ public class ProgressBar : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        try { 
 
-        int PendingStatusForAllApiLinks = ApiFilter.counts[0].Status102 + ApiFilter.counts[1].Status102;
+
+            int PendingStatusForAllApiLinks = ApiFilter.counts[0].Status102 + ApiFilter.counts[1].Status102;
         int PendingStatusCounterTotal = ApiFilter.counts[0].TotalStatusCounter + ApiFilter.counts[1].TotalStatusCounter;
         int PendingTotal = PendingStatusForAllApiLinks * 100 / PendingStatusCounterTotal;
 
-       
 
-        if(PendingCurrentAmount < PendingTotal)
+
+        if (PendingCurrentAmount < PendingTotal)
         {
             PendingCurrentAmount += PendingSpeed * Time.deltaTime;
             PendingTextIndicator.GetComponent<Text>().text = ((int)PendingCurrentAmount).ToString() + "%";
         }
-        else
-        {
-           
         }
+        catch (IndexOutOfRangeException e)
+        {
+            //print error if u want
+        }
+
         PendingLoadingBar.GetComponent<Image>().fillAmount = PendingCurrentAmount / 100;
        
         int SuccessStatusForAllApiLinks = ApiFilter.counts[0].Status201 + ApiFilter.counts[1].Status201;
