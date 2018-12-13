@@ -32,8 +32,8 @@ public class ProcessDetailInserter : MonoBehaviour {
     private int newSingleProcessAligner = 0;
 	private int processLimit = 5;
     public RectTransform CampaignMenu;
-    public int AnimationAligner = 0;
-    private bool fuckyoubitch;
+    
+    private bool AnimationAligner;
     
 
 	public GameObject stepsHolderPrefab;
@@ -202,8 +202,8 @@ public class ProcessDetailInserter : MonoBehaviour {
 		item.transform.SetParent(parent.transform.GetChild(2), false);
 
 		item.transform.Translate(position, 0,   0);
-		item.transform.GetChild(1).Translate(0, (position * -1), 0);
-        //item.transform.GetChild(1).Translate((position * -1),0,  0);
+		item.transform.GetChild(2).Translate((position * -1), 0, 0);
+       // item.transform.GetChild(2).Translate((position * -1),0,  0);
 		// Setting color of the Step
 		item.GetComponent<Image>().color = identifyStatus(status);
 
@@ -231,7 +231,7 @@ public class ProcessDetailInserter : MonoBehaviour {
         individualProcess.transform.GetChild(2).Translate((newSingleProcessAligner * -1), 0,  0);
         var processDetailsgeneral = individualProcess.transform.GetChild(2);
         newSingleProcessAligner -= 250;
-        AnimationAligner -= 5000;
+        
 
         
         // Open 
@@ -243,16 +243,16 @@ public class ProcessDetailInserter : MonoBehaviour {
             temp.z = 1800.0f;
             
 
-            if (!fuckyoubitch)
+            if (!AnimationAligner)
             {
               processStepHolder.transform.position = temp;
                 CampaignMenu.DOAnchorPos(new Vector2(0, -2000), 0.35f);
-                fuckyoubitch = true;
+                AnimationAligner = true;
             } 
            
   
 
-            Debug.Log("6666666666666666666666666666666666");
+            
           
         });
 
@@ -260,15 +260,15 @@ public class ProcessDetailInserter : MonoBehaviour {
         individualProcess.GetComponentsInChildren<Button>()[1].onClick.AddListener(() =>
         {
 
-            if (fuckyoubitch)
+            if (AnimationAligner)
             {
                   processStepHolder.GetComponentInChildren<RectTransform>().DOAnchorPos(new Vector2(0, 5000), 0.35f);
                 CampaignMenu.DOAnchorPos(new Vector2(0, 0), 0.35f);
-                fuckyoubitch = false;
+                AnimationAligner = false;
             }
              //processStepHolder.transform.Translate(5000, 0, 0);
            
-            Debug.Log("55555555555555555555555555555555555555555");
+           
            
         });
 
