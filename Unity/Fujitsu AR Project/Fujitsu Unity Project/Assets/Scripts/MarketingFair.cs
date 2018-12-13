@@ -7,6 +7,8 @@ using System.IO;
 using System;
 using System.Text;
 using SimpleJSON;
+using UnityEngine.EventSystems;
+using DG.Tweening;
 
 // All script is based on my (c1645238) experimental work on another repository.
 // https://gitlab.cs.cf.ac.uk/c1645238/personal-ar-experiment/blob/master/Assets/Scripts/Spawner.cs
@@ -27,12 +29,16 @@ public class MarketingFair : MonoBehaviour {
 	private int processAligner = 0;
 	public GameObject processPrefab;
 	public GameObject processParent;
-
+    private int newSingleProcessAligner = 0;
 	private int processLimit = 5;
+    public RectTransform CampaignMenu;
+    
+    private bool AnimationAligner;
+    
 
 	public GameObject stepsHolderPrefab;
 
-
+	private int startPoint;
 	// Use this for initialization
 	void Start () {
 		StartCoroutine(HandleJSON());
@@ -53,7 +59,7 @@ public class MarketingFair : MonoBehaviour {
 	// DATE ACCESSED 17.11.2018.
 	// EXAMPLE FROM OFFICIAL DOCUMENTATION.
 	// LOGIN HEADER INSPIRED BY TEAM 7 AR Project, Oliver Simon c1633899 20/11/2018
-	private IEnumerator HandleJSON() {
+private IEnumerator HandleJSON() {
 		var username = "cristiano.bellucci.fujitsu+cardiffadmin@gmail.com";
 		var password = "Millennium";
 
@@ -64,10 +70,11 @@ public class MarketingFair : MonoBehaviour {
 		headers ["Authorization"] = "Basic " + credentials;  // FROM TEAM 7
 		headers ["Accept"] = "application/json";
 
+		//startPoint = Convert.ToInt32(File.ReadAllText("Assets/Scripts/processPage.txt"));
+
 		WWW www = new WWW("https://live.runmyprocess.com/live/112761542179152739/request?operator=EE%20EE%20IS&column=name%20status%20events%20published%20updated&value=215357%20ACCEPTANCE%20NULL&filter=PROJECT%20MODE%20PARENT&nb=20&first=0&method=GET&P_rand=77540", null, headers);
 
 		yield return www;
-
 
 		// Preparation for process generation.
 		var jsonObject =  JSON.Parse(www.text);
@@ -162,7 +169,7 @@ public class MarketingFair : MonoBehaviour {
 						createStep(createdProcess, itemAligner, stepItem["name"].Value, arrayOfStepDetails[counter]["st"], theAsignee,
 							processStepsArray["feed"]["entry"]["process"]["pool"]["lane"]["name"], failureCommentToDisplay);
 
-						itemAligner -= 75;
+						itemAligner -= 300;
 					}
 					counter++;
 				}
@@ -174,6 +181,7 @@ public class MarketingFair : MonoBehaviour {
 
 		}
 	}
+
 
 
 	public void createStep(GameObject parent, int position, string name, int status, string owner, string department, string comment = "No comment available.") {
@@ -194,9 +202,9 @@ public class MarketingFair : MonoBehaviour {
 		GameObject item = Instantiate(stepPrefab);
 		item.transform.SetParent(parent.transform.GetChild(2), false);
 
-		item.transform.Translate(0, position, 0);
-		item.transform.GetChild(1).Translate(0, (position * -1), 0);
-
+		item.transform.Translate(position, 0,   0);
+		item.transform.GetChild(2).Translate((position * -1), 0, 0);
+       // item.transform.GetChild(2).Translate((position * -1),0,  0);
 		// Setting color of the Step
 		item.GetComponent<Image>().color = identifyStatus(status);
 
@@ -214,25 +222,75 @@ public class MarketingFair : MonoBehaviour {
 		GameObject individualProcess = Instantiate(processPrefab);
 		individualProcess.transform.SetParent(processParentIn.transform, false);
 
-		individualProcess.transform.Translate(0, processAligner, 0);
+        // HOW THEY SPAWN
+		individualProcess.transform.Translate(newSingleProcessAligner, 0,  0);
+       
 
-		GameObject processStepHolder = Instantiate(stepsHolderPrefab);
-		processStepHolder.transform.SetParent(individualProcess.transform, false);
+        GameObject processStepHolder = Instantiate(stepsHolderPrefab);
+	
+        processStepHolder.transform.SetParent(individualProcess.transform, false);
+        individualProcess.transform.GetChild(2).Translate((newSingleProcessAligner * -1), 0,  0);
+        var processDetailsgeneral = individualProcess.transform.GetChild(2);
+        newSingleProcessAligner -= 250;
+        
+
+        
+        // Open 
+        individualProcess.GetComponentsInChildren<Button>()[0].onClick.AddListener(() =>
+        {
+            Vector3 NewPosition = new Vector3( 0, 2000, 2500 );
+            Vector3 temp = transform.position;
+            temp.y = 1300.0f;
+            temp.z = 1800.0f;
+            
+
+            if (!AnimationAligner)
+            {
+              processStepHolder.transform.position = temp;
+                CampaignMenu.DOAnchorPos(new Vector2(0, -2000), 0.35f);
+                AnimationAligner = true;
+            } 
+           
+  
+
+            
+          
+        });
+
+        // Close
+        individualProcess.GetComponentsInChildren<Button>()[1].onClick.AddListener(() =>
+        {
+
+            if (AnimationAligner)
+            {
+                  processStepHolder.GetComponentInChildren<RectTransform>().DOAnchorPos(new Vector2(0, 5000), 0.35f);
+                CampaignMenu.DOAnchorPos(new Vector2(0, 0), 0.35f);
+                AnimationAligner = false;
+            }
+             //processStepHolder.transform.Translate(5000, 0, 0);
+           
+           
+           
+        });
+
+
+
+		
 
 		// REF: DOCUMENTATION: https://docs.unity3d.com/ScriptReference/Transform.GetChild.html
 		// CONVERTING TO POSITIVE https://stackoverflow.com/questions/1348080/convert-a-positive-number-to-negative-in-c-sharp
 		// BY Shimmy at Jan 24 '12 at 23:13 ACCESSED ON 28/11/2018
-		individualProcess.transform.GetChild(2).Translate(0, (processAligner * -1), 0);
+		
+        //individualProcess.transform.GetChild(2).Translate(newSingleProcessAligner, 0,  0);
 
-
-		processAligner -= 75;
-
+		//processAligner -= 75;
+        
 
 		individualProcess.GetComponentsInChildren<Text>()[0].text = processTitle;
 
 		// Setting colors of Process Health Display.
-		individualProcess.GetComponentsInChildren<Image>()[1].color = identifyStatus(status);
-		individualProcess.GetComponentsInChildren<Image>()[3].color = identifyStatus(status);
+		individualProcess.GetComponentsInChildren<Image>()[0].color = identifyStatus(status);
+		//individualProcess.GetComponentsInChildren<Image>()[3].color = identifyStatus(status);
 
 		return processStepHolder;
 	} 
@@ -245,13 +303,13 @@ public class MarketingFair : MonoBehaviour {
 		if(status == 201) {
 			colorCode = new Color32(119, 157, 004, 255);
 
-			// Failed colour
+		// Failed colour
 		} else if (status == 301) {
+			
+			colorCode = new Color32 (249, 95, 103, 255);
 
-			colorCode = new Color32 (201, 47, 0, 255);
 
-
-			// Pending colour
+		// Pending colour
 		} else if (status == 102) {
 			colorCode = new Color32(217, 143, 0, 255);
 
@@ -259,6 +317,6 @@ public class MarketingFair : MonoBehaviour {
 
 		return colorCode;
 	} 
-	// End of referenced code.
+
 
 }
