@@ -240,8 +240,8 @@ private IEnumerator HandleJSON() {
         {
             Vector3 NewPosition = new Vector3( 0, 2000, 2500 );
             Vector3 temp = transform.position;
-            temp.y = 1200.0f;
-            temp.z = 900.0f;
+             temp.y = 1300.0f;
+            temp.z = 2000.0f;
             
 
             if (!AnimationAligner)
