@@ -57,7 +57,10 @@ public class ProjectHealth : MonoBehaviour {
             if (RadialBarDaTa.Count > 1 && RadialBar.Length > 1)
             {
 
-
+                // 0 = 1
+                // 1 = 2
+                // 1 = 2
+                // 1 = 2
 
                 for (var i = 0; i < RadialBar.Length; i++)
                 {
@@ -126,7 +129,7 @@ public class ProjectHealth : MonoBehaviour {
         GameObject RadialBar = Instantiate(RadialBarPrefab);
         RadialBar.transform.SetParent(RadialBarParent.transform, false);
         RadialBar.transform.Translate(RadialBarAligner, 0, 0);
-        RadialBarAligner = 350;
+        RadialBarAligner = 300;
         return RadialBar;
     }
 

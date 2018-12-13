@@ -16,7 +16,7 @@ using SimpleJSON;
 
 public class UIManager : MonoBehaviour {
 
-    public RectTransform MainMenu, CampaignMenu, FairMenu;
+    public RectTransform MainMenu, CampaignMenu, FairMenu, GlobalButtons;
     public GameObject[] ProjectButtonArray;
     public GameObject[] ProjectItemArray;
     public GameObject[] ProcessDetailsBackBtnArray;
@@ -102,5 +102,14 @@ public class UIManager : MonoBehaviour {
         Debug.Log("4444444444444444444444444444444444444");
     }
 
+    public void HideGlobalButtons()
+    {
+        GlobalButtons.DOAnchorPos(new Vector2(2000, 0), 0.35f);
+    }
+
+    public void ShowGlobalButtons()
+    {
+        GlobalButtons.DOAnchorPos(new Vector2(0, 0), 0.35f);
+    }
    
 }
