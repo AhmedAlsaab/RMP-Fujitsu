@@ -8,7 +8,7 @@ using System;
 using System.Text;
 using SimpleJSON;
 using Vuforia;
-
+// C1443907
 public class ProjectScreen : MonoBehaviour {
 
     private string baseURL = "https://live.runmyprocess.com/";
@@ -33,7 +33,7 @@ public class ProjectScreen : MonoBehaviour {
 		StartCoroutine(GetText());
 
 	}
-
+    // C1443907
  IEnumerator GetText() {
 		var username = "cristiano.bellucci.fujitsu+cardiffadmin@gmail.com";
 		var password = "Millennium";
@@ -64,7 +64,7 @@ public class ProjectScreen : MonoBehaviour {
 
                 GameObject createdProject = createProject(arrayItem["title"].Value);
 
-                // Adding in title for process.
+                // Adding in the title for projects.
                 createdProject.GetComponentsInChildren<Text>()[0].text = arrayItem["title"].Value;
 
 		  
@@ -78,11 +78,14 @@ public class ProjectScreen : MonoBehaviour {
 
     // https://answers.unity.com/questions/52683/how-i-can-call-a-function-once-on-the-update-funct.html
     // Calling an update function once
+    // C1443907
     void Update()
     {
-
+        // Try block as Index will be out of range untill data is passed in by API
         try
         {
+            // Find all objects with the tag 'ProjectButton'
+            // Needs to be in update method as tags are allocated post-launch, when API data fetches
             ProjectButtonArray = GameObject.FindGameObjectsWithTag("ProjectButton");
 
             if (ProjectButtonArray.Length >= 1) //size u want
@@ -101,6 +104,8 @@ public class ProjectScreen : MonoBehaviour {
         }
 
     }
+     // C1443907
+    // Adding onclick listeners that open up the corresponding process-panel for each project
    void ProjectBtnAssigner()
     {
         foreach (GameObject gameObject in ProjectButtonArray)
@@ -114,10 +119,8 @@ public class ProjectScreen : MonoBehaviour {
     
 
    
-
-    // Find Intro screen and Activiate
-     
-        // Find Intro screen and Deactivate
+    // C1443907
+    // Find Main Menu screen and Activiate
 
     void IntroScreenFinderAndDeactivator()
     {
@@ -126,14 +129,14 @@ public class ProjectScreen : MonoBehaviour {
 
     }
 
-        // Find Marketing Campaign Process list and Activiate
+     // Find Marketing Campaign Process list and Activiate
 
     void MarketingCampaignFinderAndActivator()
     {
         GameObject CampaignProcessList = GameObject.FindGameObjectWithTag("CampaignList");
         CampaignProcessList.transform.SetAsLastSibling();
     }
-            // Find Marketing Fair Process list and Activiate
+     // Find Marketing Fair Process list and Activiate
 
     void MarketingFairFinderAndActivator()
     {
@@ -157,31 +160,17 @@ public class ProjectScreen : MonoBehaviour {
         IntroScreenFinderAndDeactivator();
         MarketingFairFinderAndActivator();
     }
-
-    
-
-   
-
-    
-   
-
+     // C1443907
+    // Creating X amount objects that contain the title of each found project
     GameObject createProject(string projectTitle)
     {
         GameObject individualProject = Instantiate(projectPrefab);
         individualProject.transform.SetParent(projectParent.transform, false);
-
         individualProject.transform.Translate(projectAligner, 0,  0 );
-
         individualProject.GetComponentsInChildren<Text>()[0].text = projectTitle;
-
         projectAligner = 300;
-
-      
         return individualProject;
     }
 
-    
-
-    
 	
 }

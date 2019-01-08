@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Networking;
-using System.IO;
 using System;
 using System.Text;
 using SimpleJSON;
-
+// C1443907
+// Radial Progress Bars that indicate Project Health for each available project
 public class ProjectHealth : MonoBehaviour {
 
    
@@ -34,47 +33,53 @@ public class ProjectHealth : MonoBehaviour {
    
 
 	// Use this for initialization
+    // The Application should run both links
 	void Start () {
         
 		 StartCoroutine(RunThisApi("https://live.runmyprocess.com/live/112761542179152739/request?operator=EE%20EE%20IS&column=name%20status%20events%20published%20updated&value=215357%20ACCEPTANCE%20NULL&filter=PROJECT%20MODE%20PARENT&nb=20&first=0&method=GET&P_rand=77540"));
          StartCoroutine(RunThisApi("https://live.runmyprocess.com/live/112761542179152739/requestreport/CWL%20Market%20Campaign%20Report.csv?operator=EE%20EE%20IS&column=name%20status%20events%20published%20updated&value=215356%20ACCEPTANCE%20NULL&filter=PROJECT%20MODE%20PARENT&nb=20&first=0&method=GET&P_rand=34765"));
 	}
 	
-	// Update is called once per frame
+	
+    // Update method is a Unity reserved method that performs the functionality placed within once per frame (fast, continous until requirement has been fulfilled)
+    // The segment below needs to be in the update method
 	void Update () {
 
-        
-        
 
         try
         {
 
              // 0 Index = MarketingFairAPI || 1 Index = MarketingCampaignAPI
            
-            
+            // Find all objects with the tag 'RadialBar'
+            // Needs to be in update method as tags are allocated post-launch, when API data fetches
             RadialBar = GameObject.FindGameObjectsWithTag("RadialBar");
-
+            // If there is more than one | When found..
             if (RadialBarDaTa.Count > 1 && RadialBar.Length > 1)
             {
-
-                // 0 = 1
-                // 1 = 2
-                // 1 = 2
-                // 1 = 2
-
+                // For each one found, do the following:
                 for (var i = 0; i < RadialBar.Length; i++)
                 {
+                    // Current Amount default: 0
                     if (currentAmount < RadialBarDaTa[i])
                     {
+                        // Setting the speed to fill
+                        // Printing the % retrieved from the operation
+                        // Changing text, set active
+                        // Fill the image, default 0, to the fetched amount
+                        // Example: 58% = Radial bar should fill up with specified color up to 58% of the radial bar
                         currentAmount += speed * Time.deltaTime;
                         RadialBar[i].GetComponentsInChildren<Text>()[0].text = ((int)currentAmount).ToString() + "%";
                         RadialBar[i].GetComponentsInChildren<Text>()[1].gameObject.SetActive(true);
                         RadialBar[i].GetComponentsInChildren<Image>()[1].fillAmount = currentAmount / 100;
+                        // When the current amount is GREATER:
+                        // Finish running the method/update
+                        
                         if (currentAmount > RadialBarDaTa[i])
                         {
                              
                             Debug.Log("Finished Radial Progress");
-                            //RadialBar[i].GetComponentsInChildren<Image>()[1].fillAmount = currentAmount / 100;
+                           
                             continue;
                         }
                     }
@@ -107,9 +112,9 @@ public class ProjectHealth : MonoBehaviour {
 
    
 
-    
+    // C1443907
 
-   
+   // Percentage Indications of every status that fetched from the API and then created on the interface
     GameObject createStatus(float c102, float c201, float c301, float total )
     {
         GameObject StatusCodeBox = Instantiate(StatusContainerPrefab);
@@ -121,7 +126,7 @@ public class ProjectHealth : MonoBehaviour {
         StatusAligner -= 75;
         return StatusCodeBox;
     }
-
+    // Spawn a Radial Bar for each project found from the API
     GameObject SpawningRadialBar(float xCount102, float xCount201, float xCount301, 
         int xTotalStatusCount, int xFailingAndPending)
     {
@@ -132,7 +137,7 @@ public class ProjectHealth : MonoBehaviour {
         RadialBarAligner = 300;
         return RadialBar;
     }
-
+    // C1443907
     IEnumerator RunThisApi(string url)
     {
         var username = "cristiano.bellucci.fujitsu+cardiffadmin@gmail.com";
@@ -159,9 +164,11 @@ public class ProjectHealth : MonoBehaviour {
          Count201 = 0;
          Count102 = 0;
          TotalStatusCount = 0;
-         // yield return new WaitForSeconds(1);
+         
         
-        // Getting the process report.
+        // Look for the specified keywords in the array specified
+        // For each status found | == 
+        // Add them to the empty variable given within
         foreach (var arrayItem in arrayOfProcessStatus.Values)
         {
           
@@ -188,10 +195,12 @@ public class ProjectHealth : MonoBehaviour {
                
                 
             }
-           
+           // Consecutively get the total amount of status' from the given link 
             TotalStatusCount++;
 
 		}
+        // C1443907
+        // Storing the now populated variables into the static API filter so that we can access these values and variables globally
         ProgressBar.Status102 = Count102;
         ProgressBar.Status201 = Count201;
         ProgressBar.Status301 = Count301;

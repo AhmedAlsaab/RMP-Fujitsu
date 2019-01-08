@@ -203,7 +203,6 @@ public class ProcessDetailInserter : MonoBehaviour {
 
 		item.transform.Translate(position, 0,   0);
 		item.transform.GetChild(2).Translate((position * -1), 0, 0);
-       // item.transform.GetChild(2).Translate((position * -1),0,  0);
 		// Setting color of the Step
 		item.GetComponent<Image>().color = identifyStatus(status);
 
@@ -226,15 +225,19 @@ public class ProcessDetailInserter : MonoBehaviour {
        
 
         GameObject processStepHolder = Instantiate(stepsHolderPrefab);
-	
+	    // Setting the parent and position
         processStepHolder.transform.SetParent(individualProcess.transform, false);
         individualProcess.transform.GetChild(2).Translate((newSingleProcessAligner * -1), 0,  0);
         var processDetailsgeneral = individualProcess.transform.GetChild(2);
         newSingleProcessAligner -= 250;
         
-
+        // C1443907
         
         // Open 
+        // When selecting a process it should transition down at the specified coordinates
+        // As steps are children of processes they also automatically get pulled down
+        // Steps spawn higher than processes, so processes when selected go out of view, and steps into-view
+        // Specified by index which step to fetch on click
         individualProcess.GetComponentsInChildren<Button>()[0].onClick.AddListener(() =>
         {
             Vector3 NewPosition = new Vector3( 0, 2000, 2500 );
@@ -246,8 +249,8 @@ public class ProcessDetailInserter : MonoBehaviour {
             if (!AnimationAligner)
             {
               processStepHolder.transform.position = temp;
-                CampaignMenu.DOAnchorPos(new Vector2(0, -2000), 0.35f);
-                AnimationAligner = true;
+              CampaignMenu.DOAnchorPos(new Vector2(0, -2000), 0.35f);
+              AnimationAligner = true;
             } 
            
   
@@ -255,21 +258,20 @@ public class ProcessDetailInserter : MonoBehaviour {
             
           
         });
+        // C1443907
 
         // Close
+        // Return all elements to their original position, default 5000
+        // Processes into view, and step-details out of view
         individualProcess.GetComponentsInChildren<Button>()[1].onClick.AddListener(() =>
         {
 
             if (AnimationAligner)
             {
-                  processStepHolder.GetComponentInChildren<RectTransform>().DOAnchorPos(new Vector2(0, 5000), 0.35f);
+                processStepHolder.GetComponentInChildren<RectTransform>().DOAnchorPos(new Vector2(0, 5000), 0.35f);
                 CampaignMenu.DOAnchorPos(new Vector2(0, 0), 0.35f);
                 AnimationAligner = false;
             }
-             //processStepHolder.transform.Translate(5000, 0, 0);
-           
-           
-           
         });
 
 
@@ -280,16 +282,11 @@ public class ProcessDetailInserter : MonoBehaviour {
 		// CONVERTING TO POSITIVE https://stackoverflow.com/questions/1348080/convert-a-positive-number-to-negative-in-c-sharp
 		// BY Shimmy at Jan 24 '12 at 23:13 ACCESSED ON 28/11/2018
 		
-        //individualProcess.transform.GetChild(2).Translate(newSingleProcessAligner, 0,  0);
-
-		//processAligner -= 75;
-        
-
 		individualProcess.GetComponentsInChildren<Text>()[0].text = processTitle;
 
 		// Setting colors of Process Health Display.
 		individualProcess.GetComponentsInChildren<Image>()[0].color = identifyStatus(status);
-		//individualProcess.GetComponentsInChildren<Image>()[3].color = identifyStatus(status);
+		
 
 		return processStepHolder;
 	} 
@@ -316,28 +313,6 @@ public class ProcessDetailInserter : MonoBehaviour {
 
 		return colorCode;
 	} 
-
-	//public void linkIsReset() {
-	//	// Making sure function is triggered.
-	//	Debug.Log("Link is changed." + startPoint);
-
-	//	// Getting all the processes.
-	//	GameObject[] listOfProcesses = GameObject.FindGameObjectsWithTag ("Process");  
-
-	//	// Destroying all the processes so that new ones can be created.
-	//	foreach (GameObject process in listOfProcesses) { 
-	//		Destroy(process);
-
-	//	}
-
-	//	// Reseting the creation position so the new generation looks consistent.
-	//	newSingleProcessAligner = 0; 
-
-	//	// Fetching all the new information coming from the new link.
-	//	StartCoroutine(HandleJSON()); 
-
-
-	//}
 
 
 }
