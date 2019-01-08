@@ -31,7 +31,7 @@ public class MarketingFair : MonoBehaviour {
 	public GameObject processParent;
     private int newSingleProcessAligner = 0;
 	private int processLimit = 5;
-    public RectTransform CampaignMenu;
+    public RectTransform FairMenu;
     
     private bool AnimationAligner;
     
@@ -243,39 +243,19 @@ private IEnumerator HandleJSON() {
         // Steps spawn higher than processes, so processes when selected go out of view, and steps into-view
         // Specified by index which step to fetch on click
         individualProcess.GetComponentsInChildren<Button>()[0].onClick.AddListener(() =>
-        {
-            Vector3 NewPosition = new Vector3( 0, 2000, 2500 );
-            Vector3 temp = transform.position;
-             temp.y = 1300.0f;
-            temp.z = 2000.0f;
-            
+        {          
+              FairMenu.DOAnchorPos(new Vector2(0,-2500), 0.35f);
 
-            if (!AnimationAligner)
-            {
-              processStepHolder.transform.position = temp;
-              CampaignMenu.DOAnchorPos(new Vector2(0, -2000), 0.35f);
-              AnimationAligner = true;
-            } 
-
-          
         });
 
         // C1443907
 
         // Close
-        // Return all elements to their original position, default 5000
+        // Return all elements to their original position
         // Processes into view, and step-details out of view
         individualProcess.GetComponentsInChildren<Button>()[1].onClick.AddListener(() =>
         {
-
-            if (AnimationAligner)
-            {
-                processStepHolder.GetComponentInChildren<RectTransform>().DOAnchorPos(new Vector2(0, 5000), 0.35f);
-                CampaignMenu.DOAnchorPos(new Vector2(0, 0), 0.35f);
-                AnimationAligner = false;
-            }
-      
-          
+              FairMenu.DOAnchorPos(new Vector2(0, 0), 0.35f);          
         });
 
 
