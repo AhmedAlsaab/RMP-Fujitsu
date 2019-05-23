@@ -1,6 +1,4 @@
-**Foreword**
 
-The MVP can be found in *master-clone-cm6311*, this branch represents interface-v2 and it's related files (which act and incorperate different logic in comparison to the MVP) are listed below under **interface 2.0**
 
 **RunMyProcess AR Project**
 
