@@ -134,41 +134,13 @@ Please see contributions.md file for more information on team agreement.
 
 **Authors**
 
-1645238
+Ahmed Alsaab
 
-1443907
+Arda Karaderi
 
-1631256
+Joshua Teague
 
-1673239
-
-
-**Licensing**
-
-No licensing available for this project.
+Daniel Jones
 
 
-**Acknowledgements**
-
-Each script file contains references to sources used.
-
-
-**Branches worked on**
-
-**Daniel Jones**
-
-    https://gitlab.cs.cf.ac.uk/c1645238/team-3-ar-project-fujitsu/tree/process-pages
-    
-    https://gitlab.cs.cf.ac.uk/c1645238/team-3-ar-project-fujitsu/tree/custom-image-targets
-    
-    https://gitlab.cs.cf.ac.uk/c1645238/team-3-ar-project-fujitsu/tree/status-circle
-**Joshua Teague**
-
-    https://gitlab.cs.cf.ac.uk/c1645238/team-3-ar-project-fujitsu/tree/xml-parser/object-spawner
-    https://gitlab.cs.cf.ac.uk/c1645238/team-3-ar-project-fujitsu/tree/legend-help
-    https://gitlab.cs.cf.ac.uk/c1645238/team-3-ar-project-fujitsu/tree/image_target
-    https://gitlab.cs.cf.ac.uk/c1645238/team-3-ar-project-fujitsu/commits/experimental-layout-v2-snapshot
-    https://gitlab.cs.cf.ac.uk/c1645238/team-3-ar-project-fujitsu/tree/unit-testing-snapshot
-**Also to note**
-   Git commit "https://gitlab.cs.cf.ac.uk/c1645238/team-3-ar-project-fujitsu/commit/9362c6ace9d9a2fb8b25dba1a6156f336bd29fd3" is Joshua Teague's work
     
